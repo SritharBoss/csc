@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, AfterViewInit } from '@angular/core';
-import { elementAt } from 'rxjs';
+import { elementAt, last } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -164,12 +164,12 @@ export class AppComponent implements AfterViewInit {
 
   downloadJson(){
 
-    let lAccounts:Accounts[]=(this.cloneObj(this.accounts) as Accounts[]);
+    let lAccounts:Accounts[]=this.accounts;
     lAccounts.forEach((a)=>{a.yestAmount=a.amount});
     
-    let lServices:Services[]=this.cloneObj(this.services);
+    let lServices:Services[]=this.services
     lServices.forEach((a)=>{a.yestAmount=a.amount});
-
+    
     let data:JsonSchema={
       date:this.date.toString(),
       accounts:lAccounts,
@@ -182,7 +182,7 @@ export class AppComponent implements AfterViewInit {
     }
     console.log(JSON.stringify(data))
 
-    //this.downloadFile('CSC-'+this.datepipe.transform(this.date,'dd-MM-YYYY'),JSON.stringify(data));
+    this.downloadFile('CSC-'+this.datepipe.transform(this.date,'dd-MM-YYYY'),JSON.stringify(data));
   }
 
   cloneObj(obj:any):any{
