@@ -3,7 +3,10 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 html,body {
-    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 15px;
     font-family: 'Quicksand';
     background-color: lightgoldenrodyellow;
 }

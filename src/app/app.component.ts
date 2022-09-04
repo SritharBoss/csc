@@ -1,4 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, AfterViewInit } from '@angular/core';
+import { elementAt } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +8,8 @@ import { Component, AfterViewInit } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements AfterViewInit {
-  ngAfterViewInit(): void {
-    this.updateHeaders();
-  }
+
+  constructor(public datepipe: DatePipe){}
 
   data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value":0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0}, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [],"yestGT":0,"yestDiff": 0 };
   accounts: Accounts[] = this.data.accounts;
@@ -20,7 +21,8 @@ export class AppComponent implements AfterViewInit {
 
   jsonFile: any;
   show: boolean = true;
-  date = this.getDate(this.data.date);
+  date:Date=new Date();
+  yestDate:Date=new Date('01-01-2000');
 
 
   currentAccountSum = 0;
@@ -60,9 +62,9 @@ export class AppComponent implements AfterViewInit {
     this.drPeoples = data.custBalance.filter((value: any) => { return value.type == 'd' });
     this.cashBal = data.cashBal;
     this.expenses = data.todayExpenses;
-    this.date = this.getDate(data.date);
     this.yestGT=data.yestGT;
     this.yestDiff=data.yestDiff;
+    this.yestDate=data.date;
 
     this.currentDiff=this.currentGT - this.yestGT + this.currentExpenses;
 
@@ -93,42 +95,42 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  getDate(str: String): Date {
-    //const str = '21/07/2024 04:24:37';
-    const [dateComponents, timeComponents] = str.split(' ');
-    const [day, month, year] = dateComponents.split('/');
-    const [hours, minutes, seconds] = timeComponents.split(':');
-
-    return new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
-
-  }
-
   onChange(event: any, module: string) {
 
     if (module == 'accounts') {
       this.currentAccountSum = 0;
       this.accounts.forEach(element => {
-        this.currentAccountSum = this.currentAccountSum + +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        let val:number= +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.amount=val;
+        this.currentAccountSum = this.currentAccountSum + val;
       });
     } else if (module == 'services') {
       this.currentServicesSum = 0;
       this.services.forEach(element => {
-        this.currentServicesSum = this.currentServicesSum + +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        let val:number=+(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.amount=val;
+        this.currentServicesSum = this.currentServicesSum + val;
       });
     } else if (module == 'cust-c') {
       this.currentCrBal = 0;
       this.crPeoples.forEach(element => {
-        this.currentCrBal = this.currentCrBal + +(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
+        let val=+(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
+        element.amount=val;
+        this.currentCrBal = this.currentCrBal + val;
       });
     } else if (module == 'cust-d') {
       this.currentDebBal = 0;
       (this.drPeoples as CustBalance[]).forEach(e => {
-        this.currentDebBal = this.currentDebBal + +(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
+        let val=+(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
+        e.amount=val
+        this.currentDebBal = this.currentDebBal + val;
       });
     } else if (module == 'denom') {
       this.currentDenom = 0;
       this.cashBal.forEach(element => {
-        this.currentDenom = this.currentDenom + +(document.getElementById("id_" + element.id) as HTMLInputElement).value * element.denom;
+        let val=+(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.value=val;
+        this.currentDenom = this.currentDenom + val * element.denom;
       });
 
       (document.getElementById("id_accounts-1") as HTMLInputElement).value = this.currentDenom.toString();
@@ -137,7 +139,9 @@ export class AppComponent implements AfterViewInit {
     } else if (module == 'expense') {
       this.currentExpenses = 0;
       this.expenses.forEach(element => {
-        this.currentExpenses = this.currentExpenses + +(document.getElementById("id_" + element.name + "_" + element.type) as HTMLInputElement).value;
+        let val=+(document.getElementById("id_" + element.name + "_" + element.type) as HTMLInputElement).value;
+        element.amount=val;
+        this.currentExpenses = this.currentExpenses + val;
       });
     }
     this.updateSubHeadersData();
@@ -160,11 +164,16 @@ export class AppComponent implements AfterViewInit {
 
   downloadJson(){
 
+    let lAccounts:Accounts[]=(this.cloneObj(this.accounts) as Accounts[]);
+    lAccounts.forEach((a)=>{a.yestAmount=a.amount});
+    
+    let lServices:Services[]=this.cloneObj(this.services);
+    lServices.forEach((a)=>{a.yestAmount=a.amount});
 
     let data:JsonSchema={
       date:this.date.toString(),
-      accounts:this.accounts,
-      services:this.services,
+      accounts:lAccounts,
+      services:lServices,
       custBalance:this.crPeoples.concat(this.drPeoples),
       cashBal:this.cashBal,
       todayExpenses:this.expenses,
@@ -172,6 +181,32 @@ export class AppComponent implements AfterViewInit {
       yestDiff:this.currentDiff
     }
     console.log(JSON.stringify(data))
+
+    //this.downloadFile('CSC-'+this.datepipe.transform(this.date,'dd-MM-YYYY'),JSON.stringify(data));
+  }
+
+  cloneObj(obj:any):any{
+    return JSON.parse(JSON.stringify(this.accounts));
+  }
+
+  downloadFile(filename:any, text:string) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:application/JSON;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+  ngAfterViewInit(): void {
+    this.updateHeaders();
+    setInterval(()=>{
+      this.date=new Date();
+    },5000)
   }
 
 }

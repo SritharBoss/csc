@@ -4,7 +4,8 @@
       <img src="./assets/logo.png" style="height: 60px;" alt="">
     </span>
     <div style="font-size: 1.5rem;">
-      {{ date | date:'dd-MM-YYYY -- HH:mm:ss'}}
+      <i class="bi bi-clock"></i>
+      {{ date | date:'MMM dd, YYYY, hh:mm aa'}}
     </div>
     <div>
       <span>
@@ -152,4 +153,4 @@
   </div>
 </div>
 
-<footer>Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}</footer>
+<footer>Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}} | Report Downloaded Time : {{yestDate | date:'medium'}}</footer>
