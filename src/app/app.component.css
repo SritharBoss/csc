@@ -1,0 +1,144 @@
+.container {
+    max-width: 100%;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 60px 100px 1fr;
+    gap: 1px;
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+
+.header {
+    grid-column-start: 1;
+    grid-column-end: 10;
+    padding: 0px;
+    border: 2px solid green;
+    border-radius: 5px;
+    margin: 0px 5px;
+    background-color: rgb(191, 229, 138);
+    user-select: none;
+}
+
+.subheader {
+    font-size: 28px;
+    display: grid;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: green;
+    font-weight: bolder;
+    margin: 0px 5px;
+    box-shadow: 3px 3px 5px gold;
+    user-select: none;
+}
+
+.subheader2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    user-select: none;
+}
+
+.main1,
+.subheader3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 5px;
+}
+
+.maincontent {
+    align-items: center;
+}
+
+.subheader:hover {
+    background-color: grey;
+    transition: background-color 500ms, size 1s;
+    cursor: pointer;
+    animation: ff 0.3s;
+}
+
+
+@keyframes ff {
+    25% {
+        transform: translateX(4px)
+    }
+
+    50% {
+        transform: translateX(-4px)
+    }
+
+    75% {
+        transform: translateX(4px)
+    }
+}
+
+.btn {
+    box-shadow: none;
+}
+
+.btn:hover {
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: rgb(231, 159, 249);
+    --bs-btn-hover-border-color: #0a58ca;
+    transition: background-color 500ms, size 1s;
+}
+
+/*Center the Input Type inside the Span*/
+span button {
+    color: #fff;
+    display: inline-block;
+    margin: 10px 10px 0 0;
+
+}
+
+.main2 {
+    display: grid;
+    grid-template-rows: 60px auto 60px auto;
+    padding: 5px;
+}
+
+.cr {
+    border: 2px solid black;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    align-content: center;
+    background-color: lightsteelblue;
+}
+
+.maincontent4 {
+    display: grid;
+    grid-template-rows: 300px 60px 1fr;
+    padding: 5px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputstyle {
+    margin: 2px;
+    width: 160px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 20px;
+    padding: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    text-align: center;
+    background-color: black;
+}

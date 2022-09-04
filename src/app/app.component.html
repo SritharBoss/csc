@@ -1,0 +1,155 @@
+<div class="container">
+  <div class="header" style="display: flex;justify-content: space-between; align-items: center;">
+    <span>
+      <img src="../assets/logo.png" style="height: 60px;" alt="">
+    </span>
+    <div style="font-size: 1.5rem;">
+      {{ date | date:'dd-MM-YYYY -- HH:mm:ss'}}
+    </div>
+    <div>
+      <span>
+        <button (click)="show=!show" style="width: 100px;margin-top: 5px;" class="btn btn-primary">{{show==true?'Hide':'Undo'}}</button>
+      </span>
+      <span style="float: right;padding-right: 10px; padding-top: 5px;">
+        <input type="file" id="upload" (change)="fileChanged($event)" hidden />
+        <label class="btn btn-primary" for="upload"><i class="bi bi-upload"></i> Upload</label>
+      </span>
+      <span>
+        <button (click)="downloadJson()" class="btn btn-primary" style="margin-top: 5px"><i class="bi bi-download"></i> Download</button>
+      </span>
+      <span>
+        <button (click)="updateHeaders()" class="btn btn-primary" style="margin-top: 5px"><i class="bi bi-arrow-clockwise"></i> Refresh Data</button>
+      </span>
+    </div>
+  </div>
+  
+  <div [hidden]="!show" class="subheader" style="grid-column-start:1;grid-column-end:2;background-color: rgb(249, 235, 233);">
+    <div style="color: black; font-size: 18px;">GT</div>
+    <div>
+      {{currentGT | currency:'INR':'symbol':'.0'}}
+    </div>
+  </div>
+  <div [hidden]="!show" class="subheader subheader2" style="grid-column-start:2;grid-column-end:6;background-color: #EDC2D8FF;">
+    <div>
+      <div style="color: black; font-size: 18px;">In Hand</div>
+      <div style="font-size: 25px;"> {{currentDenom|currency:'INR':'symbol':'.0'}}</div>
+    </div>
+    <div>
+      <div style="color: black; font-size: 18px;">Bank</div>
+      <div style="font-size: 25px;"> {{currentAccountSum-currentDenom |currency:'INR':'symbol':'.0'}}</div>
+    </div>
+    <div>
+      <div style="color: black; font-size: 18px;">EC</div>
+      <div style="font-size: 25px;"> {{currentServicesSum|currency:'INR':'symbol':'.0'}}</div>
+    </div>
+    <div>
+      <div style="color: black; font-size: 18px;">Cust. Bal</div>
+      <div style="font-size: 25px;"> {{currentCrBal|currency:'INR':'symbol':'.0'}}</div>
+    </div>
+  </div>
+  <div  [hidden]="!show" class="subheader subheader3" style="background-color: rgb(224, 240, 254);grid-column-start:6;grid-column-end:8">
+    <div>
+      <div style="color: black; font-size: 18px;">DR</div>
+      <div style="font-size: 25px; color: red;"> {{currentDebBal|currency:'INR':'symbol':'.0'}}</div>
+    </div>
+
+    <div>
+      <div style="color: black; font-size: 18px;">Exp</div>
+      <div style="font-size: 25px; color:red"> {{currentExpenses|currency:'INR':'symbol':'.0'}}</div>
+    </div>
+    
+  </div>
+
+  <div  [hidden]="!show" class="subheader" style="background-color: rgb(255, 235, 245); grid-column-start:8;grid-column-end:10">
+    <div style="color: black; font-size: 18px;">Diff</div>
+    {{currentDiff |currency:'INR':'symbol':'.0'}}
+  </div>
+
+  <!--Sub Header Ends-->
+
+  <div class="main1" style="grid-column-start:1;grid-column-end:5; margin: 5px;">
+    <div>
+      <div *ngFor="let a of accounts">
+        <span style="display: flex;">
+          <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}" style="width: 150px;align-self: center;" for="id_{{a.id}}">{{a.name}}</label>
+          <input #ip [disabled]="ip.id=='id_accounts-1'?true:false" (focusout)="onChange($event,'accounts')" class="inputstyle form-control" type="number" id="id_{{a.id}}">
+        </span>
+      </div>
+    </div>
+
+    <div>
+
+      <div *ngFor="let a of services">
+        <span style="display: flex;">
+          <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}" style="width: 150px;align-self: center;" for="id_{{a.id}}">{{a.name}}</label>
+          <input (focusout)="onChange($event,'services')" class="inputstyle form-control"  type="number" id="id_{{a.id}}">
+        </span>
+      </div>
+    </div>
+  </div>
+  <div style="grid-column-start:5;grid-column-end:8; margin: 5px;">
+    <div class="main2" >
+      <div class="cr" (click)="addUser('cr')">
+        Credit
+        <span style="float: right;padding-right: 5px;">
+          <button class="btn btn-primary" style="margin: 0px;"><i class="bi bi-person-plus"></i> Add</button>
+        </span>
+      </div>
+      <div>  
+        <div *ngFor="let a of crPeoples;index as i">
+          <span style="display: grid; grid-template-columns: 1fr auto 40px;">
+            <label style="margin-right: 20px;align-self: center;overflow: hidden;" for="id_{{a.custName}}">{{i+1}}. {{a.custName}}</label>
+            <input (focusout)="onChange($event,'cust-c')"  class="inputstyle form-control" type="number" id="id_{{a.custName}}" value="{{a.amount}}">
+            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'cr')">-</button>
+          </span>
+        </div>
+      </div>
+      <div class="cr" (click)="addUser('dr')">
+        <span>Debit</span>
+        <span style="float: right;padding-right: 5px;">
+          <button class="btn btn-primary" style="margin: 0px;"><i class="bi bi-person-plus"></i> Add</button>
+        </span>
+      </div>
+      <div>
+        <div *ngFor="let a of drPeoples;index as i">
+          <span style="display: grid; grid-template-columns: 1fr auto 40px;">
+            <label style="margin-right: 20px;align-self: center;" for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}}</label>
+            <input (focusout)="onChange($event,'cust-d')" class="inputstyle form-control" type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'dr')">-</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="maincontent4" style="grid-column-start:8;grid-column-end:10;">
+    <div>
+      <div *ngFor="let a of cashBal">
+        <span style="display: flex; flex-direction: row-reverse;">
+          <input (focusout)="onChange($event,'denom')" class="inputstyle form-control" type="number" id="id_{{a.id}}" >
+          <label style="margin-right: 20px;width: 100px;align-self: center;" for="id_{{a.id}}">{{a.denom}} X</label>
+        </span>
+      </div>
+    </div>
+
+    <div class="cr" (click)="addUser('ex')">
+      <span style="text-align: center;">Expenses</span>
+      <span style="float: right;padding-right: 5px;">
+        <button class="btn btn-primary" style="margin: 0px;"><i class="bi bi-plus"></i> Add</button>
+      </span>
+    </div>
+
+    <div>
+      <div *ngFor="let a of expenses;index as i">
+        <span style="display: grid; grid-template-columns: 1fr auto 40px;">
+          <label style="margin-right: 20px;align-self: center;" for="id_{{a.name}}_{{a.type}}">{{i+1}}. {{a.name}}</label>
+          <input (focusout)="onChange($event,'expense')" class="inputstyle form-control" style="width: 120px;" type="number" id="id_{{a.name}}_{{a.type}}">
+          <button  class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.name,'ex')">-</button>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}</footer>
