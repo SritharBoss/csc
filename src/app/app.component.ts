@@ -139,7 +139,7 @@ export class AppComponent implements AfterViewInit {
     } else if (module == 'expense') {
       this.currentExpenses = 0;
       this.expenses.forEach(element => {
-        let val=+(document.getElementById("id_" + element.name + "_" + element.type) as HTMLInputElement).value;
+        let val=+(document.getElementById("id_" + element.name + "_ex") as HTMLInputElement).value;
         element.amount=val;
         this.currentExpenses = this.currentExpenses + val;
       });
@@ -185,8 +185,18 @@ export class AppComponent implements AfterViewInit {
     this.downloadFile('CSC-'+this.datepipe.transform(this.date,'dd-MM-YYYY'),JSON.stringify(data));
   }
 
-  cloneObj(obj:any):any{
-    return JSON.parse(JSON.stringify(this.accounts));
+  clearForToday(){
+    this.expenses=[];
+    this.data.todayExpenses.forEach((value,index) => {
+      delete this.data.todayExpenses[index]
+    });
+    this.accounts.forEach((e)=>e.amount=0);
+    this.services.forEach((e)=>e.amount=0);
+    this.cashBal.forEach((e)=>e.value=0)
+
+    setTimeout(() => {
+      this.updateHeaders();
+    }, 500);
   }
 
   downloadFile(filename:any, text:string) {

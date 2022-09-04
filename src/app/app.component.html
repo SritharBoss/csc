@@ -12,7 +12,7 @@
         <button (click)="show=!show" style="width: 100px;margin-top: 5px;" class="btn btn-primary">{{show==true?'Hide':'Undo'}}</button>
       </span>
       <span style="float: right;padding-right: 10px; padding-top: 5px;">
-        <input type="file" id="upload" (change)="fileChanged($event)" hidden />
+        <input type="file" id="upload" accept="application/JSON" (change)="fileChanged($event)" hidden />
         <label class="btn btn-primary" for="upload"><i class="bi bi-upload"></i> Upload</label>
       </span>
       <span>
@@ -20,6 +20,9 @@
       </span>
       <span>
         <button (click)="updateHeaders()" class="btn btn-primary" style="margin-top: 5px"><i class="bi bi-arrow-clockwise"></i> Refresh Data</button>
+      </span>
+      <span style="float: right">
+        <button (click)="clearForToday()" class="btn btn-primary" style="margin-top: 5px"><i class="bi bi-eraser-fill"></i> Clear</button>
       </span>
     </div>
   </div>
@@ -61,7 +64,7 @@
     
   </div>
 
-  <div  [hidden]="!show" class="subheader" style="background-color: rgb(255, 235, 245); grid-column-start:8;grid-column-end:10">
+  <div  [hidden]="!show" class="subheader" [style.color]="currentDiff>=0?'green':'red'" style="background-color: rgb(255, 235, 245); grid-column-start:8;grid-column-end:10">
     <div style="color: black; font-size: 18px;">Diff</div>
     {{currentDiff |currency:'INR':'symbol':'.0'}}
   </div>
@@ -90,11 +93,12 @@
   </div>
   <div style="grid-column-start:5;grid-column-end:8; margin: 5px;">
     <div class="main2" >
-      <div class="cr" (click)="addUser('cr')">
+      <div class="cr">
         Credit
         <span style="float: right;padding-right: 5px;">
-          <button class="btn btn-primary" style="margin: 0px;"><i class="bi bi-person-plus"></i> Add</button>
+          <button (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px;"><i class="bi bi-person-plus"></i> Add</button>
         </span>
+
       </div>
       <div>  
         <div *ngFor="let a of crPeoples;index as i">
@@ -133,18 +137,18 @@
       </div>
     </div>
 
-    <div class="cr" (click)="addUser('ex')">
+    <div class="cr">
       <span style="text-align: center;">Expenses</span>
       <span style="float: right;padding-right: 5px;">
-        <button class="btn btn-primary" style="margin: 0px;"><i class="bi bi-plus"></i> Add</button>
+        <button class="btn btn-primary" (click)="addUser('ex')" style="margin: 0px;"><i class="bi bi-plus"></i> Add</button>
       </span>
     </div>
 
     <div>
       <div *ngFor="let a of expenses;index as i">
         <span style="display: grid; grid-template-columns: 1fr auto 40px;">
-          <label style="margin-right: 20px;align-self: center;" for="id_{{a.name}}_{{a.type}}">{{i+1}}. {{a.name}}</label>
-          <input (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control" style="width: 120px;" type="number" id="id_{{a.name}}_{{a.type}}">
+          <label style="margin-right: 20px;align-self: center;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
+          <input (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control" style="width: 120px;" type="number" id="id_{{a.name}}_ex">
           <button  class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.name,'ex');updateHeaders()">-</button>
         </span>
       </div>
