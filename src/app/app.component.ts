@@ -10,7 +10,7 @@ export class AppComponent implements AfterViewInit {
     this.updateHeaders();
   }
 
-  data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [{ "custName": "Sriram", "type": "c", "amount": 0 }, { "custName": "Vasu", "type": "c", "amount": 0 }, { "custName": "Marikannu", "type": "d", "amount": 0 }, { "custName": "Venkat", "type": "d", "amount": 0 }], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 5 }, { "id": "cash_2", "denom": 500, "value": 1 }, { "id": "cash_3", "denom": 200, "value": 5 }, { "id": "cash_4", "denom": 100, "value": 1 }, { "id": "cash_5", "denom": 50, "value": 5 }, { "id": "cash_6", "denom": 20, "value": 1 }, { "id": "cash_7", "denom": 10, "value": 1 }, { "id": "cash_8", "denom": 5, "value": 1 }], "todayExpenses": [{ "name": "Modem EC", "notes": "For SHop Mobile", "type": "d", "amount": 0 }, { "name": "Expense 2", "notes": "For Expense", "type": "d", "amount": 0 }],"yestGT":0,"yestDiff": 0 };
+  data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value":0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0}, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [],"yestGT":0,"yestDiff": 0 };
   accounts: Accounts[] = this.data.accounts;
   services: Services[] = this.data.services;
   crPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
@@ -66,7 +66,7 @@ export class AppComponent implements AfterViewInit {
 
     this.currentDiff=this.currentGT - this.yestGT + this.currentExpenses;
 
-    this.updateHeaders();
+    setTimeout(()=> { console.log('timeout done'); this.updateHeaders(); }, 500);
 
   }
 
@@ -118,7 +118,7 @@ export class AppComponent implements AfterViewInit {
     } else if (module == 'cust-c') {
       this.currentCrBal = 0;
       this.crPeoples.forEach(element => {
-        this.currentCrBal = this.currentCrBal + +(document.getElementById("id_" + element.custName) as HTMLInputElement).value;
+        this.currentCrBal = this.currentCrBal + +(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
       });
     } else if (module == 'cust-d') {
       this.currentDebBal = 0;
@@ -155,9 +155,12 @@ export class AppComponent implements AfterViewInit {
     this.onChange('', 'cust-d');
     this.onChange('', 'denom');
     this.onChange('', 'expense');
+    console.log('data updated')
   }
 
   downloadJson(){
+
+
     let data:JsonSchema={
       date:this.date.toString(),
       accounts:this.accounts,
@@ -166,7 +169,7 @@ export class AppComponent implements AfterViewInit {
       cashBal:this.cashBal,
       todayExpenses:this.expenses,
       yestGT: this.currentGT,
-      yestDiff:this.yestGT
+      yestDiff:this.currentDiff
     }
     console.log(JSON.stringify(data))
   }

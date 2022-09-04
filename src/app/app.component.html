@@ -72,7 +72,7 @@
       <div *ngFor="let a of accounts">
         <span style="display: flex;">
           <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}" style="width: 150px;align-self: center;" for="id_{{a.id}}">{{a.name}}</label>
-          <input #ip [disabled]="ip.id=='id_accounts-1'?true:false" (focusout)="onChange($event,'accounts')" class="inputstyle form-control" type="number" id="id_{{a.id}}">
+          <input #ip [disabled]="ip.id=='id_accounts-1'?true:false" (focusout)="onChange($event,'accounts')" class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
         </span>
       </div>
     </div>
@@ -82,7 +82,7 @@
       <div *ngFor="let a of services">
         <span style="display: flex;">
           <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}" style="width: 150px;align-self: center;" for="id_{{a.id}}">{{a.name}}</label>
-          <input (focusout)="onChange($event,'services')" class="inputstyle form-control"  type="number" id="id_{{a.id}}">
+          <input (focusout)="onChange($event,'services')" class="inputstyle form-control"  value="{{a.amount}}"  type="number" id="id_{{a.id}}">
         </span>
       </div>
     </div>
@@ -98,9 +98,9 @@
       <div>  
         <div *ngFor="let a of crPeoples;index as i">
           <span style="display: grid; grid-template-columns: 1fr auto 40px;">
-            <label style="margin-right: 20px;align-self: center;overflow: hidden;" for="id_{{a.custName}}">{{i+1}}. {{a.custName}}</label>
-            <input (focusout)="onChange($event,'cust-c')"  class="inputstyle form-control" type="number" id="id_{{a.custName}}" value="{{a.amount}}">
-            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'cr')">-</button>
+            <label style="margin-right: 20px;align-self: center;overflow: hidden;" for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}}</label>
+            <input  value="{{a.amount}}" (focusout)="onChange($event,'cust-c')"  class="inputstyle form-control" type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'cr');updateHeaders()">-</button>
           </span>
         </div>
       </div>
@@ -114,8 +114,8 @@
         <div *ngFor="let a of drPeoples;index as i">
           <span style="display: grid; grid-template-columns: 1fr auto 40px;">
             <label style="margin-right: 20px;align-self: center;" for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}}</label>
-            <input (focusout)="onChange($event,'cust-d')" class="inputstyle form-control" type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
-            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'dr')">-</button>
+            <input (focusout)="onChange($event,'cust-d')"  value="{{a.amount}}" class="inputstyle form-control" type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+            <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.custName,'dr');updateHeaders()">-</button>
           </span>
         </div>
       </div>
@@ -126,7 +126,7 @@
     <div>
       <div *ngFor="let a of cashBal">
         <span style="display: flex; flex-direction: row-reverse;">
-          <input (focusout)="onChange($event,'denom')" class="inputstyle form-control" type="number" id="id_{{a.id}}" >
+          <input (focusout)="onChange($event,'denom')"  value="{{a.value}}" class="inputstyle form-control" type="number" id="id_{{a.id}}" >
           <label style="margin-right: 20px;width: 100px;align-self: center;" for="id_{{a.id}}">{{a.denom}} X</label>
         </span>
       </div>
@@ -143,8 +143,8 @@
       <div *ngFor="let a of expenses;index as i">
         <span style="display: grid; grid-template-columns: 1fr auto 40px;">
           <label style="margin-right: 20px;align-self: center;" for="id_{{a.name}}_{{a.type}}">{{i+1}}. {{a.name}}</label>
-          <input (focusout)="onChange($event,'expense')" class="inputstyle form-control" style="width: 120px;" type="number" id="id_{{a.name}}_{{a.type}}">
-          <button  class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.name,'ex')">-</button>
+          <input (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control" style="width: 120px;" type="number" id="id_{{a.name}}_{{a.type}}">
+          <button  class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;" (click)="deleteRow(a.name,'ex');updateHeaders()">-</button>
         </span>
       </div>
     </div>
