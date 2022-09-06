@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { elementAt, last } from 'rxjs';
 
 @Component({
@@ -7,11 +7,30 @@ import { elementAt, last } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
 
-  constructor(public datepipe: DatePipe){}
+  constructor(public datepipe: DatePipe) { }
+  ngOnInit(): void {
+    if(localStorage.getItem("data")==null){
+      return;
+    }
+    
 
-  data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value":0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0}, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [],"yestGT":0,"yestDiff": 0 };
+    this.data = JSON.parse(localStorage.getItem("data") || "");
+    this.accounts = this.data.accounts;
+    this.services = this.data.services;
+    this.crPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
+    this.drPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
+    this.cashBal = this.data.cashBal;
+    this.expenses = this.data.todayExpenses;
+
+    this.yestGT = this.data.yestGT;
+    this.yestDiff = this.data.yestDiff
+    this.yestDate = new Date(this.data.date)
+
+  }
+
+  data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0 };
   accounts: Accounts[] = this.data.accounts;
   services: Services[] = this.data.services;
   crPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
@@ -21,8 +40,8 @@ export class AppComponent implements AfterViewInit {
 
   jsonFile: any;
   show: boolean = true;
-  date:Date=new Date();
-  yestDate:Date=new Date('01-01-2000');
+  date: Date = new Date();
+  yestDate: Date = new Date('01-01-2000');
 
 
   currentAccountSum = 0;
@@ -33,10 +52,10 @@ export class AppComponent implements AfterViewInit {
   currentExpenses = 0;
 
   currentGT: number = 0;
-  yestGT:number=0
+  yestGT: number = 0
 
   currentDiff = 0;
-  yestDiff=0
+  yestDiff = 0
 
   fileChanged(e: any) {
     this.jsonFile = e.target.files[0];
@@ -49,9 +68,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   populateData(result: any) {
-    let data:any;
+    let data: any;
     try {
-      data = JSON.parse(result); 
+      data = JSON.parse(result);
     } catch (error) {
       alert('File Error')
     }
@@ -62,13 +81,13 @@ export class AppComponent implements AfterViewInit {
     this.drPeoples = data.custBalance.filter((value: any) => { return value.type == 'd' });
     this.cashBal = data.cashBal;
     this.expenses = data.todayExpenses;
-    this.yestGT=data.yestGT;
-    this.yestDiff=data.yestDiff;
-    this.yestDate=data.date;
+    this.yestGT = data.yestGT;
+    this.yestDiff = data.yestDiff;
+    this.yestDate = data.date;
 
-    this.currentDiff=this.currentGT - this.yestGT + this.currentExpenses;
+    this.currentDiff = this.currentGT - this.yestGT + this.currentExpenses;
 
-    setTimeout(()=> { console.log('timeout done'); this.updateHeaders(); }, 500);
+    setTimeout(() => { console.log('timeout done'); this.updateHeaders(); }, 500);
 
   }
 
@@ -100,36 +119,36 @@ export class AppComponent implements AfterViewInit {
     if (module == 'accounts') {
       this.currentAccountSum = 0;
       this.accounts.forEach(element => {
-        let val:number= +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
-        element.amount=val;
+        let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.amount = val;
         this.currentAccountSum = this.currentAccountSum + val;
       });
     } else if (module == 'services') {
       this.currentServicesSum = 0;
       this.services.forEach(element => {
-        let val:number=+(document.getElementById("id_" + element.id) as HTMLInputElement).value;
-        element.amount=val;
+        let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.amount = val;
         this.currentServicesSum = this.currentServicesSum + val;
       });
     } else if (module == 'cust-c') {
       this.currentCrBal = 0;
       this.crPeoples.forEach(element => {
-        let val=+(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
-        element.amount=val;
+        let val = +(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
+        element.amount = val;
         this.currentCrBal = this.currentCrBal + val;
       });
     } else if (module == 'cust-d') {
       this.currentDebBal = 0;
       (this.drPeoples as CustBalance[]).forEach(e => {
-        let val=+(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
-        e.amount=val
+        let val = +(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
+        e.amount = val
         this.currentDebBal = this.currentDebBal + val;
       });
     } else if (module == 'denom') {
       this.currentDenom = 0;
       this.cashBal.forEach(element => {
-        let val=+(document.getElementById("id_" + element.id) as HTMLInputElement).value;
-        element.value=val;
+        let val = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.value = val;
         this.currentDenom = this.currentDenom + val * element.denom;
       });
 
@@ -139,8 +158,8 @@ export class AppComponent implements AfterViewInit {
     } else if (module == 'expense') {
       this.currentExpenses = 0;
       this.expenses.forEach(element => {
-        let val=+(document.getElementById("id_" + element.name + "_ex") as HTMLInputElement).value;
-        element.amount=val;
+        let val = +(document.getElementById("id_" + element.name + "_ex") as HTMLInputElement).value;
+        element.amount = val;
         this.currentExpenses = this.currentExpenses + val;
       });
     }
@@ -149,7 +168,7 @@ export class AppComponent implements AfterViewInit {
 
   updateSubHeadersData() {
     this.currentGT = this.currentServicesSum + this.currentAccountSum + this.currentCrBal - this.currentDebBal;
-    this.currentDiff=this.currentGT - this.yestGT + this.currentExpenses;
+    this.currentDiff = this.currentGT - this.yestGT + this.currentExpenses;
   }
 
   updateHeaders() {
@@ -162,44 +181,65 @@ export class AppComponent implements AfterViewInit {
     console.log('data updated')
   }
 
-  downloadJson(){
+  downloadJson() {
 
-    let lAccounts:Accounts[]=this.accounts;
-    lAccounts.forEach((a)=>{a.yestAmount=a.amount});
-    
-    let lServices:Services[]=this.services
-    lServices.forEach((a)=>{a.yestAmount=a.amount});
-    
-    let data:JsonSchema={
-      date:this.date.toString(),
-      accounts:lAccounts,
-      services:lServices,
-      custBalance:this.crPeoples.concat(this.drPeoples),
-      cashBal:this.cashBal,
-      todayExpenses:this.expenses,
+    let lAccounts: Accounts[] = this.accounts;
+    lAccounts.forEach((a) => { a.yestAmount = a.amount });
+
+    let lServices: Services[] = this.services
+    lServices.forEach((a) => { a.yestAmount = a.amount });
+
+    let data: JsonSchema = {
+      date: this.date.toString(),
+      accounts: lAccounts,
+      services: lServices,
+      custBalance: this.crPeoples.concat(this.drPeoples),
+      cashBal: this.cashBal,
+      todayExpenses: this.expenses,
       yestGT: this.currentGT,
-      yestDiff:this.currentDiff
+      yestDiff: this.currentDiff
     }
     console.log(JSON.stringify(data))
 
-    this.downloadFile('CSC-'+this.datepipe.transform(this.date,'dd-MM-YYYY'),JSON.stringify(data));
+    this.downloadFile('CSC-' + this.datepipe.transform(this.date, 'dd-MM-YYYY'), JSON.stringify(data));
+
+    localStorage.setItem('data', JSON.stringify(data))
   }
 
-  clearForToday(){
-    this.expenses=[];
-    this.data.todayExpenses.forEach((value,index) => {
+  clearForToday() {
+    this.expenses = [];
+    this.data.todayExpenses.forEach((value, index) => {
       delete this.data.todayExpenses[index]
     });
-    this.accounts.forEach((e)=>e.amount=0);
-    this.services.forEach((e)=>e.amount=0);
-    this.cashBal.forEach((e)=>e.value=0)
+    this.accounts.forEach((e) => e.amount = 0);
+    this.services.forEach((e) => e.amount = 0);
+    this.cashBal.forEach((e) => e.value = 0)
 
     setTimeout(() => {
       this.updateHeaders();
     }, 500);
   }
 
-  downloadFile(filename:any, text:string) {
+  clearCache(event:any){
+    event.stopPropagation();
+    localStorage.clear();
+
+  }
+
+  updateGT() {
+    try {
+      let newGT = prompt('Enter New GT Value')
+      if (newGT != null) {
+        this.yestGT = Number.parseInt(newGT);
+        this.updateHeaders();
+      }
+
+    } catch (e) {
+      alert('Enter only Number')
+    }
+  }
+
+  downloadFile(filename: any, text: string) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:application/JSON;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -210,13 +250,13 @@ export class AppComponent implements AfterViewInit {
     element.click();
 
     document.body.removeChild(element);
-}
+  }
 
   ngAfterViewInit(): void {
-    this.updateHeaders();
-    setInterval(()=>{
-      this.date=new Date();
-    },5000)
+    this.date = new Date();
+    setTimeout(() => {
+      this.updateHeaders();
+    }, 500);
   }
 
 }
@@ -228,8 +268,8 @@ interface JsonSchema {
   custBalance: CustBalance[],
   cashBal: CashBal[],
   todayExpenses: Expenses[]
-  yestGT:number;
-  yestDiff:number;
+  yestGT: number;
+  yestDiff: number;
 }
 
 interface CustBalance { custName: string, type: string, amount: number }

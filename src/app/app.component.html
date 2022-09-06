@@ -157,4 +157,4 @@
   </div>
 </div>
 
-<footer>Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}} | Report Downloaded Time : {{yestDate | date:'medium'}}</footer>
+<footer (click)="updateGT()" >Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}} | Report Downloaded Time : {{yestDate | date:'medium'}} <span style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">Clear Cache</span></footer>
