@@ -223,7 +223,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   clearCache(event:any){
     event.stopPropagation();
     localStorage.clear();
-
+    window. location. reload()
   }
 
   updateGT() {
