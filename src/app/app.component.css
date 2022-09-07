@@ -1,29 +1,20 @@
-.container {
-    max-width: 100%;
+.cont {
     font-weight: bold;
-    display: grid;
-    grid-template-columns: repeat(9,1fr);
-    grid-template-rows: 60px 100px 1fr;
     gap: 1px;
-    padding: 1px;
-    box-sizing: border-box;
 }
 
 
 .header {
-    grid-column-start: 1;
-    grid-column-end: 10;
-    padding: 0px;
     border: 2px solid green;
     border-radius: 5px;
-    margin: 0px 5px;
     background-color: rgb(191, 229, 138);
     user-select: none;
 }
 
+
 .subheader {
     font-size: 28px;
-    display: grid;
+    text-align: center;
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -32,9 +23,10 @@
     border-radius: 5px;
     color: green;
     font-weight: bolder;
-    margin: 0px 5px;
     box-shadow: 3px 3px 5px gold;
     user-select: none;
+    margin-top: 5px;
+    padding: 10px 0px;
 }
 
 .subheader2 {
@@ -43,7 +35,6 @@
     user-select: none;
 }
 
-.main1,
 .subheader3 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -57,7 +48,7 @@
 .subheader:hover {
     background-color: grey;
     cursor: pointer;
-    animation: ff 0.3s;
+    animation: ff 0.5s;
 }
 
 
@@ -76,8 +67,8 @@
 }
 
 .btn:hover {
+    filter: brightness(85%);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: rgb(231, 159, 249);
     --bs-btn-hover-border-color: #0a58ca;
 }
 
@@ -90,24 +81,21 @@ span button {
 }
 
 .main2 {
-    display: grid;
-    grid-template-rows: 60px auto 60px auto;
     padding: 5px;
 }
 
 .cr {
     border: 2px solid black;
-    padding: 5px;
-    margin-top: 5px;
+    padding: 3px;
     margin-bottom: 5px;
     border-radius: 5px;
-    align-content: center;
     background-color: lightsteelblue;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .maincontent4 {
-    display: grid;
-    grid-template-rows: 300px 60px 1fr;
     padding: 5px;
 }
 
@@ -118,8 +106,8 @@ input::-webkit-inner-spin-button {
 }
 
 .inputstyle {
-    margin: 2px;
-    width: 160px;
+    margin: 1px;
+    width: 120px;
     text-align: center;
     font-weight: bolder;
     font-size: 20px;
