@@ -40,6 +40,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   jsonFile: any;
   show: boolean = true;
+  diffShow:boolean = false;
   date: Date = new Date();
   yestDate: Date = new Date('01-01-2000');
 
@@ -164,6 +165,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       });
     }
     this.updateSubHeadersData();
+    this.saveJson();
   }
 
   updateSubHeadersData() {
@@ -179,10 +181,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.onChange('', 'denom');
     this.onChange('', 'expense');
     console.log('data updated')
+    this.saveJson();
   }
 
-  downloadJson() {
-
+  saveJson():JsonSchema{
     let lAccounts: Accounts[] = this.accounts;
     lAccounts.forEach((a) => { a.yestAmount = a.amount });
 
@@ -199,12 +201,20 @@ export class AppComponent implements AfterViewInit, OnInit {
       yestGT: this.currentGT,
       yestDiff: this.currentDiff
     }
-    console.log(JSON.stringify(data))
-
-    this.downloadFile('CSC-' + this.datepipe.transform(this.date, 'dd-MM-YYYY'), JSON.stringify(data));
-
-    localStorage.setItem('data', JSON.stringify(data))
+    
+    localStorage.setItem('data', JSON.stringify(data));
+    return data;
   }
+
+  downloadJson() {
+
+    let data=this.saveJson();
+
+    console.log(JSON.stringify(data))
+    this.downloadFile('CSC-' + this.datepipe.transform(this.date, 'dd-MM-YYYY'), JSON.stringify(data));
+    
+  }
+
 
   clearForToday() {
     this.expenses = [];

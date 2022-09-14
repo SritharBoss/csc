@@ -29,7 +29,7 @@
         </span>
         
         <span style="float: right;">
-          <button (click)="show=!show" style="width: 100px;" class="btn btn-primary">{{show==true?'Hide':'Undo'}}</button>
+          <button (click)="show=!show" style="width: 100px;" class="btn btn-primary">{{show==true?'Hide':'Show'}}</button>
         </span>
         
       </span>
@@ -79,10 +79,11 @@
 
       </div>
 
-      <div [hidden]="!show" class="col-md subheader" [style.color]="currentDiff>=0?'green':'red'"
+      <div (click)="diffShow=!diffShow;" [hidden]="!show" class="col-md subheader" [style.color]="currentDiff>=0?'green':'red'"
         style="background-color: rgb(255, 235, 245)">
         <div style="color: black; font-size: 18px;">Diff</div>
-        {{currentDiff |currency:'INR':'symbol':'.0'}}
+        <span [hidden]="!diffShow" >{{currentDiff |currency:'INR':'symbol':'.0'}}</span>
+        <span [hidden]="diffShow">-</span>
       </div>
     </div>
 
