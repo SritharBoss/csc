@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { elementAt, last } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -9,41 +10,22 @@ import { elementAt, last } from 'rxjs';
 })
 export class AppComponent implements AfterViewInit, OnInit {
 
-  constructor(public datepipe: DatePipe) { }
-  ngOnInit(): void {
-    if(localStorage.getItem("data")==null){
-      return;
-    }
-    
+  constructor(public datepipe: DatePipe,private http: HttpClient) { }
 
-    this.data = JSON.parse(localStorage.getItem("data") || "");
-    this.accounts = this.data.accounts;
-    this.services = this.data.services;
-    this.crPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
-    this.drPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
-    this.cashBal = this.data.cashBal;
-    this.expenses = this.data.todayExpenses;
+  //host="http://localhost:3000"
+  host="http://34.16.138.122:3000"
 
-    this.yestGT = this.data.yestGT;
-    this.yestDiff = this.data.yestDiff
-    this.yestDate = new Date(this.data.date)
-
-  }
-
-  data: JsonSchema = { "date": "01/01/2024 00:00:00", "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0, "yestAmount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0, "yestAmount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0, "yestAmount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0, "yestAmount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0, "yestAmount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0, "yestAmount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0, "yestAmount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0, "yestAmount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0, "yestAmount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0, "yestAmount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0, "yestAmount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0, "yestAmount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0, "yestAmount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0, "yestAmount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0, "yestAmount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0, "yestAmount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0, "yestAmount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0, "yestAmount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0, "yestAmount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0, "yestAmount": 0 }, { "name": "STAR COMMUNICATION", "id": "serv-10", "amount": 0, "yestAmount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0 };
+  defaultData={"date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0}, { "name": "PVL CUB", "id": "accounts-2", "amount": 0}, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0}, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0}, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0}, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0}, { "name": "RABIPAY", "id": "accounts-7", "amount": 0}, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0}, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0}, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0}, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0}, { "name": "I-NET", "id": "accounts-12", "amount": 0}, { "name": "Google Business", "id": "accounts-13", "amount": 0}], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0}, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0}, { "name": "Tata sky", "id": "serv-3", "amount": 0}, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0}, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0}, { "name": "JIO 1+2", "id": "serv-6", "amount": 0}, { "name": "BSNL", "id": "serv-7", "amount": 0}, { "name": "V/C TV", "id": "serv-8", "amount": 0}, { "name": "Bismi PAN", "id": "serv-9", "amount": 0}, { "name": "Star Commu.", "id": "serv-10", "amount": 0}], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT":0, "currentDiff":0 };
+  data: JsonSchema = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0}, { "name": "PVL CUB", "id": "accounts-2", "amount": 0}, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0}, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0}, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0}, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0}, { "name": "RABIPAY", "id": "accounts-7", "amount": 0}, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0}, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0}, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0}, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0}, { "name": "I-NET", "id": "accounts-12", "amount": 0}, { "name": "Google Business", "id": "accounts-13", "amount": 0}], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0}, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0}, { "name": "Tata sky", "id": "serv-3", "amount": 0}, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0}, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0}, { "name": "JIO 1+2", "id": "serv-6", "amount": 0}, { "name": "BSNL", "id": "serv-7", "amount": 0}, { "name": "V/C TV", "id": "serv-8", "amount": 0}, { "name": "Bismi PAN", "id": "serv-9", "amount": 0}, { "name": "Star Commu.", "id": "serv-10", "amount": 0}], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT":0, "currentDiff":0 };
   accounts: Accounts[] = this.data.accounts;
   services: Services[] = this.data.services;
   crPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
   drPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
   cashBal: CashBal[] = this.data.cashBal;
   expenses: Expenses[] = this.data.todayExpenses;
+  date: Date = new Date();
 
   jsonFile: any;
-  show: boolean = true;
-  diffShow:boolean = false;
-  date: Date = new Date();
-  yestDate: Date = new Date('01-01-2000');
-
 
   currentAccountSum = 0;
   currentServicesSum = 0;
@@ -56,8 +38,30 @@ export class AppComponent implements AfterViewInit, OnInit {
   yestGT: number = 0
 
   currentDiff = 0;
-  yestDiff = 0
+  yestDiff = 0;
 
+  prev="";
+  tomorrow="";
+
+  ngOnInit(): void {
+
+    if(localStorage.getItem("date")!=null){
+      this.date = new Date(localStorage.getItem("date") || "");
+    }
+
+    let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.datepipe.transform(this.date, 'YYYYMMdd'),'GET');
+    if(resp.success){
+      this.prev=resp.yestFile
+      this.tomorrow=resp.tomorrorwFile
+      this.populateData(JSON.stringify(resp.data))
+    }else{
+      this.data=this.defaultData;
+      console.error("Get call failed.")
+    }
+    
+  }
+
+  
   fileChanged(e: any) {
     this.jsonFile = e.target.files[0];
     let fileReader = new FileReader();
@@ -67,26 +71,36 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.populateData(fileReader.result);
     }
   }
+  
 
   populateData(result: any) {
-    let data: any;
     try {
-      data = JSON.parse(result);
+      this.data = (JSON.parse(result) as JsonSchema);
     } catch (error) {
       alert('File Error')
+      console.error(error)
     }
 
-    this.accounts = data.accounts;
-    this.services = data.services;
-    this.crPeoples = data.custBalance.filter((value: any) => { return value.type == 'c' });
-    this.drPeoples = data.custBalance.filter((value: any) => { return value.type == 'd' });
-    this.cashBal = data.cashBal;
-    this.expenses = data.todayExpenses;
-    this.yestGT = data.yestGT;
-    this.yestDiff = data.yestDiff;
-    this.yestDate = data.date;
+    this.accounts = this.data.accounts;
+    this.services = this.data.services;
+    this.crPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
+    this.drPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
+    this.cashBal = this.data.cashBal;
+    this.expenses = this.data.todayExpenses;
+    this.date=new Date(this.data.date)
 
-    this.currentDiff = this.currentGT - this.yestGT + this.currentExpenses;
+    this.data.cashBal.forEach(element=>{this.currentDenom=+(element.value*element.denom)})
+    this.data.accounts.forEach(element=>{this.currentAccountSum=+element.amount})
+    this.data.services.forEach(element=>{this.currentServicesSum=+element.amount})
+    this.data.custBalance.filter((value: any) => { return value.type == 'c' }).forEach(element=>{this.currentCrBal=+element.amount})
+    this.data.custBalance.filter((value: any) => { return value.type == 'd' }).forEach(element=>{this.currentDebBal=+element.amount})
+    this.data.todayExpenses.forEach(element=>{this.currentExpenses=+element.amount})
+    
+    this.currentGT=this.data.currentGT
+    this.yestGT=this.data.yestGT
+
+    this.currentDiff = this.data.currentDiff;
+    this.yestDiff = this.data.yestDiff
 
     setTimeout(() => { console.log('timeout done'); this.updateHeaders(); }, 500);
 
@@ -101,17 +115,28 @@ export class AppComponent implements AfterViewInit, OnInit {
         this.drPeoples.push({ "custName": name, "type": "d", "amount": 0 })
       } else if (mode == 'ex') {
         this.expenses.push({ "name": name, "notes": "", "type": "d", "amount": 0 })
+      } else if (mode == 'acc') {
+        this.accounts.push({ "name": name, "id": name+"_", "amount": 0 })
+      } else if (mode == 'ser') {
+        this.services.push({ "name": name, "id": name+"_", "amount": 0 })
       }
     }
   }
 
   deleteRow(name: string, mode: string) {
-    if (mode == 'cr') {
-      this.crPeoples = this.crPeoples.filter((value) => { return value.custName != name && value.type == 'c' })
-    } else if (mode == 'dr') {
-      this.drPeoples = this.drPeoples.filter((value) => { return value.custName != name && value.type == 'd' })
-    } else if (mode == 'ex') {
-      this.expenses = this.expenses.filter((value) => { return value.name != name })
+    var confirmation:boolean=confirm("Confirm Delete : "+name);
+    if(confirmation){
+      if (mode == 'cr') {
+        this.crPeoples = this.crPeoples.filter((value) => { return value.custName != name && value.type == 'c' })
+      } else if (mode == 'dr') {
+        this.drPeoples = this.drPeoples.filter((value) => { return value.custName != name && value.type == 'd' })
+      } else if (mode == 'ex') {
+        this.expenses = this.expenses.filter((value) => { return value.name != name })
+      } else if (mode == 'acc') {
+        this.accounts = this.accounts.filter((value) => { return value.name != name })
+      } else if (mode == 'ser') {
+        this.services = this.services.filter((value) => { return value.name != name })
+      }
     }
   }
 
@@ -165,11 +190,11 @@ export class AppComponent implements AfterViewInit, OnInit {
       });
     }
     this.updateSubHeadersData();
-    this.saveJson();
+    //this.saveJson();
   }
 
   updateSubHeadersData() {
-    this.currentGT = this.currentServicesSum + this.currentAccountSum + this.currentCrBal - this.currentDebBal;
+    this.currentGT = this.currentAccountSum + this.currentServicesSum + this.currentCrBal - this.currentDebBal;
     this.currentDiff = this.currentGT - this.yestGT + this.currentExpenses;
   }
 
@@ -184,38 +209,62 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.saveJson();
   }
 
-  saveJson():JsonSchema{
+  saveData(){
+    if(this.saveJson()){
+      alert("Data Saved Successfully.");
+    }else{
+      alert("Data not Saved. Call Srithar.")
+    }
+  }
+
+  saveJson():boolean{
+    /***
     let lAccounts: Accounts[] = this.accounts;
     lAccounts.forEach((a) => { a.yestAmount = a.amount });
 
     let lServices: Services[] = this.services
     lServices.forEach((a) => { a.yestAmount = a.amount });
+    */
 
     let data: JsonSchema = {
-      date: this.date.toString(),
-      accounts: lAccounts,
-      services: lServices,
+      date: this.date,
+      accounts: this.accounts,
+      services: this.services,
       custBalance: this.crPeoples.concat(this.drPeoples),
       cashBal: this.cashBal,
       todayExpenses: this.expenses,
-      yestGT: this.currentGT,
-      yestDiff: this.currentDiff
+      yestGT: this.yestGT,
+      yestDiff: this.yestDiff,
+      currentGT: this.currentGT,
+      currentDiff:this.currentDiff
     }
-    
-    localStorage.setItem('data', JSON.stringify(data));
-    return data;
+
+    localStorage.setItem('date', this.date.toISOString());
+
+    const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.datepipe.transform(this.data.date, 'YYYYMMdd'),'POST', JSON.stringify(data));
+      if (resp.success) {
+        console.log("Post call done for "+this.date.toISOString())
+        return true;
+      } else {
+        console.error('Cannot make Post Call');
+        return false;
+      }
+    //localStorage.setItem('data', JSON.stringify(data));
+    //return data;
   }
 
+  /***
   downloadJson() {
 
     let data=this.saveJson();
-
-    console.log(JSON.stringify(data))
-    this.downloadFile('CSC-' + this.datepipe.transform(this.date, 'dd-MM-YYYY'), JSON.stringify(data));
+    //console.log(JSON.stringify(data))
+    //this.downloadFile('CSC-' + this.datepipe.transform(this.date, 'dd-MM-YYYY'), JSON.stringify(data));
     
   }
 
+  **/
 
+/***
   clearForToday() {
     this.expenses = [];
     this.data.todayExpenses.forEach((value, index) => {
@@ -229,11 +278,23 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.updateHeaders();
     }, 500);
   }
+ */
 
   clearCache(event:any){
-    event.stopPropagation();
-    localStorage.clear();
-    window. location. reload()
+    var confirmation: boolean = confirm('Confirm Reset For Current Date?');
+    if (confirmation) {
+      event.stopPropagation();
+      localStorage.clear();
+      localStorage.setItem('date', this.date.toISOString());
+      let temp=this.defaultData
+      temp.date=this.date
+      const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.datepipe.transform(this.date, 'YYYYMMdd'),'POST', JSON.stringify(temp));
+      if (resp.success) {
+        window.location.reload();
+      } else {
+        console.error('Cannot make Post Call');
+      }
+    }
   }
 
   updateGT() {
@@ -249,6 +310,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /***
   downloadFile(filename: any, text: string) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:application/JSON;charset=utf-8,' + encodeURIComponent(text));
@@ -256,38 +318,98 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     element.style.display = 'none';
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
   }
-
+  **/
   ngAfterViewInit(): void {
-    this.date = new Date();
+    //this.date = new Date();
     setTimeout(() => {
       this.updateHeaders();
     }, 500);
   }
 
+  //I just spent 3 whole fucking hours for this method to not to use async
+  makeHTTPRequest(apiUrl:string,method:string,body?:string):Response {
+    try {
+      var xhr = new XMLHttpRequest();
+      // The third parameter specifies whether the request should be asynchronous (false for synchronous)
+      xhr.open(method, apiUrl, false);
+      if (method == 'POST') {
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(body);
+      } else if (method == 'GET') {
+        xhr.send();
+      }
+      // Check if the request was successful (status code 200)
+      if (xhr.status === 200) {
+        return JSON.parse(xhr.responseText) as Response;
+      } else {
+        // Handle errors
+        console.error('Error:', xhr.statusText);
+        return <Response>{ success: false };
+      }
+    } catch (e) {
+      console.error(e);
+      return <Response>{ success: false };
+    }
+  }
+
+  goToPrev(){
+    if(this.prev!=null){
+      let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.prev,'GET');
+      if(resp.success){
+        this.prev=resp.yestFile
+        this.tomorrow=resp.tomorrorwFile
+        this.populateData(JSON.stringify(resp.data))
+      }else{
+        this.data=this.defaultData;
+        console.error("Get call failed.")
+      }
+    }else{
+      alert("Cannot go to Prev. Try Create a new file on that date.")
+    }
+  }
+
+  goToNext(){
+    if(this.tomorrow!=null){
+      let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.tomorrow,'GET');
+      if(resp.success){
+        this.prev=resp.yestFile
+        this.tomorrow=resp.tomorrorwFile
+        this.populateData(JSON.stringify(resp.data))
+      }else{
+        this.data=this.defaultData;
+        console.error("Get call failed.")
+      }
+    }else{
+      alert("Cannot go to Next. Try Create a new file on that date.")
+    }
+  }
+
 }
 
 interface JsonSchema {
-  date: string,
+  date: Date,
   accounts: Accounts[],
   services: Services[],
   custBalance: CustBalance[],
   cashBal: CashBal[],
-  todayExpenses: Expenses[]
-  yestGT: number;
-  yestDiff: number;
+  todayExpenses: Expenses[],
+  yestGT: number,
+  yestDiff: number,
+  currentGT:number,
+  currentDiff:number
 }
+
+interface Accounts { name: string, id: string, amount: number}
+
+interface Services { name: string, id: string, amount: number}
 
 interface CustBalance { custName: string, type: string, amount: number }
 
-interface Accounts { name: string, id: string, amount: number, yestAmount: number }
-
-interface Services { name: string, id: string, amount: number, yestAmount: number }
+interface Expenses { name: string, notes: string, type: string, amount: number }
 
 interface CashBal { id: string, denom: number, value: number }
 
-interface Expenses { name: string, notes: string, type: string, amount: number }
+interface Response { data:JsonSchema,success:boolean,message:string, yestFile:string, tomorrorwFile:string}

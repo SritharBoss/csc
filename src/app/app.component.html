@@ -1,52 +1,52 @@
 <div style="max-width: 100%;padding: 5px;">
   <div class="cont container-fluid" style="margin-bottom: 30px;">
     <div class="header row">
-      <span class="col-sm-2">
-        <img src="./assets/logo.png" style="height: 60px;" alt="">
+      <span class="col-sm-2" style="align-self: center">
+        <img src="./assets/logo.png" style="height: 60px;padding: 5px;" alt="">
       </span>
       <span class="col-sm-4" style="font-size: 1.5rem; text-align: center; align-self: center;">
-        <i class="bi bi-clock"></i>
-        {{ date | date:'MMM dd, YYYY, hh:mm aa'}}
+        <i [hidden]="prev==null?true:false" (click)="goToPrev()" style="cursor: pointer" class="bi bi-caret-left"></i>
+        {{ date | date:'MMM dd, YYYY'}}
+        <i [hidden]="tomorrow==null?true:false" (click)="goToNext()" style="cursor: pointer" class="bi bi-caret-right"></i>
       </span>
-      <span class="col-sm-6">
+      <span class="col-sm-6"
+        style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center;">
 
-        <span style="float: right; margin-top: 10px; margin-right: 5px;">
-          <input type="file" id="upload" accept="application/JSON" (change)="fileChanged($event)" hidden />
+        <span>
+          <input type="file" id="upload" (change)="fileChanged($event)" hidden />
+          <!-- <input type="file" id="upload" accept="application/JSON" hidden /> -->
           <label class="btn btn-primary" for="upload"><i class="bi bi-upload"></i> Upload</label>
         </span>
-
-        <span style="float: right;">
+        <!--
+        <span>
           <button (click)="clearForToday()" class="btn btn-primary"><i class="bi bi-eraser-fill"></i> Clear</button>
         </span>
+        -->
 
-        <span style="float: right;">
-          <button (click)="updateHeaders()" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i> Refresh Data</button>
+        <span>
+          <button (click)="updateHeaders()" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i>
+            Refresh</button>
         </span>
 
-        <span style="float: right;">
-          <button (click)="downloadJson()" class="btn btn-primary"><i class="bi bi-download"></i>
-            Download</button>
+        <span>
+          <button (click)="saveData();" class="btn btn-primary"><i class="bi bi-cloud-download"></i>
+            Save</button>
         </span>
-        
-        <span style="float: right;">
-          <button (click)="show=!show" style="width: 100px;" class="btn btn-primary">{{show==true?'Hide':'Show'}}</button>
-        </span>
-        
+
       </span>
     </div>
 
     <!--Headers End-->
 
     <div class="row">
-      <div [hidden]="!show" class="col-md subheader" style="background-color: rgb(249, 235, 233); margin-right: 10px;">
+      <div class="col-md subheader" style="background-color: rgb(249, 235, 233); margin-right: 10px;">
         <div style="color: black; font-size: 18px;">GT</div>
         <div>
           {{currentGT | currency:'INR':'symbol':'.0'}}
         </div>
       </div>
 
-      <div [hidden]="!show" class="col-md-5 subheader subheader2"
-        style="background-color: #EDC2D8FF; margin-right: 10px;">
+      <div class="col-md-5 subheader subheader2" style="background-color: #EDC2D8FF; margin-right: 10px;">
         <div>
           <div style="color: black; font-size: 18px;">In Hand</div>
           <div style="font-size: 25px;"> {{currentDenom|currency:'INR':'symbol':'.0'}}</div>
@@ -65,8 +65,7 @@
         </div>
       </div>
 
-      <div [hidden]="!show" class="col-md subheader subheader3"
-        style="background-color: rgb(224, 240, 254); margin-right: 10px;">
+      <div class="col-md subheader subheader3" style="background-color: rgb(224, 240, 254); margin-right: 10px;">
         <div>
           <div style="color: black; font-size: 18px;">DR</div>
           <div style="font-size: 25px; color: red;"> {{currentDebBal|currency:'INR':'symbol':'.0'}}</div>
@@ -79,11 +78,10 @@
 
       </div>
 
-      <div (click)="diffShow=!diffShow;" [hidden]="!show" class="col-md subheader" [style.color]="currentDiff>=0?'green':'red'"
+      <div class="col-md subheader" [style.color]="currentDiff>=0?'green':'red'"
         style="background-color: rgb(255, 235, 245)">
-        <div style="color: black; font-size: 18px;">Diff</div>
-        <span [hidden]="!diffShow" >{{currentDiff |currency:'INR':'symbol':'.0'}}</span>
-        <span [hidden]="diffShow">-</span>
+        <div style="color: black; font-size: 18px;">Today Profit</div>
+        <span>{{currentDiff | currency:'INR':'symbol':'.0'}}</span>
       </div>
     </div>
 
@@ -93,24 +91,28 @@
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of accounts">
           <span style="display: flex; justify-content: space-between;">
-            <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}"
-              style="min-width: 165px;" for="id_{{a.id}}">{{a.name}}</label>
+            <label style="min-width: 165px;" for="id_{{a.id}}">{{a.name}}</label>
+            <i [hidden]="a.id=='accounts-1'?true:false" style="cursor: pointer" class="bi bi-trash3"
+              (click)="deleteRow(a.name,'acc');updateHeaders()"></i>
             <input #ip [disabled]="ip.id=='id_accounts-1'?true:false" (focusout)="onChange($event,'accounts')"
-              class="inputstyle form-control" type="number" id="id_{{a.id}}"
-              value="{{a.amount}}">
+              class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
           </span>
         </span>
+        <button (click)="addUser('acc')" class="btn btn-outline-primary" style="margin-top: 10px;width: 100%;">Add
+          Account</button>
       </div>
 
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of services">
           <span style="display: flex; justify-content: space-between;">
-            <label data-toggle="tooltip" data-placement="top" title="Yesterday Amount : {{a.yestAmount}}"
-              style="width: auto; white-space: nowrap;  overflow: hidden;" for="id_{{a.id}}">{{a.name}}</label>
+            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;" for="id_{{a.id}}">{{a.name}}</label>
+            <i style="cursor: pointer" class="bi bi-trash3" (click)="deleteRow(a.name,'ser');updateHeaders()"></i>
             <input (focusout)="onChange($event,'services')" class="inputstyle form-control" value="{{a.amount}}"
               type="number" id="id_{{a.id}}">
           </span>
         </span>
+        <button (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-top: 10px;width: 100%;">Add
+          Services</button>
       </div>
 
       <div class="col-lg-4 main2">
@@ -188,15 +190,10 @@
             </span>
           </div>
         </div>
-
       </div>
-
     </div>
-
-
-
   </div>
 </div>
-<footer (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}} | Report Downloaded Time :
-  {{yestDate | date:'medium'}} <span style="position: fixed; right: 10px; cursor: pointer;"
-    (click)="clearCache($event)">Clear Cache</span></footer>
+<footer><span (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}
+    <!-- | Report Downloaded Time : {{yestDate | date:'medium'}} -->
+  </span><span style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span></footer>

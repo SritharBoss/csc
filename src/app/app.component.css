@@ -75,9 +75,7 @@
 /*Center the Input Type inside the Span*/
 span button {
     color: #fff;
-    display: inline-block;
-    margin: 10px 10px 0 0;
-
+    margin: 2px;
 }
 
 .main2 {
