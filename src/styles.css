@@ -7,4 +7,5 @@ html,body {
     height: 100%;
     font-family: 'Quicksand';
     background-color: lightgoldenrodyellow;
+    overflow-wrap: break-word
 }
