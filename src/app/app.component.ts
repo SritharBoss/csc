@@ -77,8 +77,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     fileReader.onloadend = (e) => {
       this.populateData(fileReader.result);
     }
-
-    setTimeout(() => {this.updateHeaders(); }, 500);
   }
   
 
@@ -110,6 +108,8 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     this.currentDiff = this.data.currentDiff;
     this.yestDiff = this.data.yestDiff
+
+    setTimeout(() => {this.updateHeaders(); }, 500);
 
   }
 
@@ -218,6 +218,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   saveData(){
     this.dataService.setLoader(true)
+    this.updateHeaders();
     let lData=this.saveJson();
     localStorage.setItem('date', this.date.toISOString());
     const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.getDateString(lData.date),'POST', JSON.stringify(lData));
@@ -456,6 +457,28 @@ export class AppComponent implements AfterViewInit, OnInit {
     myDate.setMonth(month);
     myDate.setDate(day);
     return myDate
+  }
+
+  downloadJson() {
+
+    let data=this.saveJson();
+
+    console.log(JSON.stringify(data))
+    this.downloadFile(this.getDateString(this.date), JSON.stringify(data));
+    
+  }
+
+  downloadFile(filename: any, text: string) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:application/JSON;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 
 }

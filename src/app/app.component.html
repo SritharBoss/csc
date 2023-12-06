@@ -12,11 +12,13 @@
       </span>
       <span class="col-sm-3"
         style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center;">
-
+        <span style="float: right;">
+          <button (click)="downloadJson()" class="btn btn-secondary"><i class="bi bi-download"></i></button>
+        </span>
         <span hidden>
           <input type="file" id="upload" (change)="fileChanged($event)" hidden />
           <!-- <input type="file" id="upload" accept="application/JSON" hidden /> -->
-          <label class="btn btn-primary" for="upload"><i class="bi bi-upload"></i> Upload</label>
+          <label class="btn btn-secondary" for="upload"><i class="bi bi-upload"></i></label>
         </span>
         <!--
         <span>
@@ -30,7 +32,7 @@
         </span>
 
         <span>
-          <button (click)="saveData();" class="btn btn-primary"><i class="bi bi-cloud-download"></i>
+          <button (click)="saveData();" class="btn btn-primary"><i class="bi bi-save"></i>
             Save</button>
         </span>
 
@@ -195,7 +197,9 @@
     </div>
   </div>
 </div>
-<footer><span (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}
+<footer>
+  <span hidden style="position: fixed; left: 10px; cursor: pointer;" (click)="clearCache($event)">DELETE FILE</span>
+  <span (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}
     <!-- | Report Downloaded Time : {{yestDate | date:'medium'}} -->
   </span><span style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span></footer>
 
