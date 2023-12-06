@@ -1,16 +1,19 @@
 import { DatePipe } from '@angular/common';
 import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { elementAt, last } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  providers: [DataService]
 })
 export class AppComponent implements AfterViewInit, OnInit {
+  
+  constructor(public datepipe: DatePipe,private http: HttpClient,private dataService:DataService) {}
 
-  constructor(public datepipe: DatePipe,private http: HttpClient) { }
+  isOnline=true
 
   //host="https://localhost:3000"
   host="https://csckkd.ddns.net:3000"
@@ -45,11 +48,13 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
 
+    this.dataService.setLoader(true)
+
     if(localStorage.getItem("date")!=null){
       this.date = new Date(localStorage.getItem("date") || "");
     }
-
-    let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.datepipe.transform(this.date, 'YYYYMMdd'),'GET');
+    
+    let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.getDateString(this.date),'GET');
     if(resp.success){
       this.prev=resp.yestFile
       this.tomorrow=resp.tomorrorwFile
@@ -58,7 +63,9 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.data=this.defaultData;
       console.error("Get call failed.")
     }
-    
+    setTimeout(()=>{
+      this.dataService.setLoader(false)
+    },1000)
   }
 
   
@@ -70,6 +77,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     fileReader.onloadend = (e) => {
       this.populateData(fileReader.result);
     }
+
+    setTimeout(() => {this.updateHeaders(); }, 500);
   }
   
 
@@ -101,8 +110,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     this.currentDiff = this.data.currentDiff;
     this.yestDiff = this.data.yestDiff
-
-    setTimeout(() => { console.log('timeout done'); this.updateHeaders(); }, 500);
 
   }
 
@@ -205,20 +212,22 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.onChange('', 'cust-d');
     this.onChange('', 'denom');
     this.onChange('', 'expense');
-    console.log('data updated')
+    console.log('On Change Call for all components')
     this.saveJson();
   }
 
   saveData(){
+    this.dataService.setLoader(true)
     let lData=this.saveJson();
     localStorage.setItem('date', this.date.toISOString());
-    const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.datepipe.transform(this.data.date, 'YYYYMMdd'),'POST', JSON.stringify(lData));
-      if (resp.success) {
-        console.log("Post call done for "+this.date.toISOString())
-        alert("Data Saved Successfully.");
-      } else {
-        alert("Data not Saved. Call Srithar.")
-      }
+    const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.getDateString(lData.date),'POST', JSON.stringify(lData));
+    if (resp.success) {
+      console.log("Post call done for "+this.date.toISOString())
+      alert("Data Saved Successfully.");
+    } else {
+      alert("Data not Saved. Call Srithar.")
+    }
+    this.dataService.setLoader(false)
   }
 
   saveJson():JsonSchema{
@@ -243,6 +252,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       currentDiff:this.currentDiff
     }
 
+    localStorage.setItem('date', this.date.toISOString());
     localStorage.setItem('data', JSON.stringify(data));
 
     return data;
@@ -286,7 +296,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       localStorage.setItem('date', this.date.toISOString());
       let temp=this.defaultData
       temp.date=this.date
-      const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.datepipe.transform(this.date, 'YYYYMMdd'),'POST', JSON.stringify(temp));
+      const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.getDateString(this.date),'POST', JSON.stringify(temp));
       if (resp.success) {
         window.location.reload();
       } else {
@@ -341,19 +351,25 @@ export class AppComponent implements AfterViewInit, OnInit {
       }
       // Check if the request was successful (status code 200)
       if (xhr.status === 200) {
+        this.isOnline=true
         return JSON.parse(xhr.responseText) as Response;
       } else {
         // Handle errors
+        alert(xhr.statusText)
+        this.isOnline=false
         console.error('Error:', xhr.statusText);
         return <Response>{ success: false };
       }
     } catch (e) {
+      alert("Server isn't responding.. Call Srithar")
+      this.isOnline=false
       console.error(e);
       return <Response>{ success: false };
     }
   }
 
   goToPrev(){
+    this.dataService.setLoader(true)
     if(this.prev!=null){
       let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.prev,'GET');
       if(resp.success){
@@ -367,9 +383,14 @@ export class AppComponent implements AfterViewInit, OnInit {
     }else{
       alert("Cannot go to Prev. Try Create a new file on that date.")
     }
+    setTimeout(()=>{
+      this.dataService.setLoader(false)
+    },500)
   }
 
   goToNext(){
+    this.dataService.setLoader(true)
+    
     if(this.tomorrow!=null){
       let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.tomorrow,'GET');
       if(resp.success){
@@ -383,6 +404,58 @@ export class AppComponent implements AfterViewInit, OnInit {
     }else{
       alert("Cannot go to Next. Try Create a new file on that date.")
     }
+    setTimeout(()=>{
+      this.dataService.setLoader(false)
+    },500)
+  }
+
+  getLoader(){
+    return this.dataService.getLoader()
+  }
+
+  openModal(){
+    const modalDiv=document.getElementById('myModal')
+    if(modalDiv!=null){
+      modalDiv.style.display="block"
+    }
+  }
+
+  modalOK(date:any){
+    let mDate=new Date()
+
+    if(date!='today'){
+      let splitted=date.split("-")
+      if(splitted.length==3 && splitted[0].length==2 && splitted[1].length==2 && splitted[2].length==4){
+        mDate.setDate(parseInt(splitted[0]))
+        mDate.setMonth(parseInt(splitted[1])-1)
+        mDate.setFullYear(parseInt(splitted[2]))
+        console.log(date)
+      }
+    }
+    if(this.date.toDateString()!=mDate.toDateString()){
+      localStorage.removeItem("date")
+      this.date=mDate
+      this.ngOnInit()
+    }
+  }
+
+  getDateString(date:Date):string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}${month}${day}`;
+  }
+
+  getDateFromString(dateStr:string):Date {
+    const year = parseInt(dateStr.substring(0, 4));
+    const month = parseInt(dateStr.substring(4, 6)) - 1; // Months are zero-based in JavaScript, so subtract 1
+    const day = parseInt(dateStr.substring(6, 8));
+  
+    let myDate = new Date();
+    myDate.setFullYear(year);
+    myDate.setMonth(month);
+    myDate.setDate(day);
+    return myDate
   }
 
 }

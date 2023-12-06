@@ -1,18 +1,19 @@
+<app-loader *ngIf="getLoader()"></app-loader>
 <div style="max-width: 100%;padding: 5px;">
   <div class="cont container-fluid" style="margin-bottom: 30px;">
-    <div class="header row">
+    <div class="header row" [style.background-color]="isOnline?'#bfe58a':'#e58a8a' ">
       <span class="col-sm-2" style="align-self: center">
         <img src="./assets/logo.png" style="height: 60px;padding: 5px;" alt="">
       </span>
-      <span class="col-sm-4" style="font-size: 1.5rem; text-align: center; align-self: center;">
+      <span class="col-sm-7" style="font-size: 1.5rem; text-align: center; align-self: center;">
         <i [hidden]="prev==null?true:false" (click)="goToPrev()" style="cursor: pointer" class="bi bi-caret-left"></i>
-        {{ date | date:'MMM dd, YYYY'}}
+        {{ date.toLocaleDateString("ta-IN",{ year:"numeric", month:"long", day:"numeric", weekday:"long"}) }}
         <i [hidden]="tomorrow==null?true:false" (click)="goToNext()" style="cursor: pointer" class="bi bi-caret-right"></i>
       </span>
-      <span class="col-sm-6"
+      <span class="col-sm-3"
         style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center;">
 
-        <span>
+        <span hidden>
           <input type="file" id="upload" (change)="fileChanged($event)" hidden />
           <!-- <input type="file" id="upload" accept="application/JSON" hidden /> -->
           <label class="btn btn-primary" for="upload"><i class="bi bi-upload"></i> Upload</label>
@@ -24,8 +25,8 @@
         -->
 
         <span>
-          <button (click)="updateHeaders()" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i>
-            Refresh</button>
+          <button (click)="updateHeaders();openModal()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-calendar-date"></i>
+            Date</button>
         </span>
 
         <span>
@@ -40,7 +41,7 @@
 
     <div class="row">
       <div class="col-md subheader" style="background-color: rgb(249, 235, 233); margin-right: 10px;">
-        <div style="color: black; font-size: 18px;">GT</div>
+        <div style="color: black; font-size: 18px;">Grant Total</div>
         <div>
           {{currentGT | currency:'INR':'symbol':'.0'}}
         </div>
@@ -67,12 +68,12 @@
 
       <div class="col-md subheader subheader3" style="background-color: rgb(224, 240, 254); margin-right: 10px;">
         <div>
-          <div style="color: black; font-size: 18px;">DR</div>
+          <div style="color: black; font-size: 18px;">கடன்</div>
           <div style="font-size: 25px; color: red;"> {{currentDebBal|currency:'INR':'symbol':'.0'}}</div>
         </div>
 
         <div>
-          <div style="color: black; font-size: 18px;">Exp</div>
+          <div style="color: black; font-size: 18px;">செலவு</div>
           <div style="font-size: 25px; color:red"> {{currentExpenses|currency:'INR':'symbol':'.0'}}</div>
         </div>
 
@@ -197,3 +198,28 @@
 <footer><span (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}
     <!-- | Report Downloaded Time : {{yestDate | date:'medium'}} -->
   </span><span style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span></footer>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" aria-hidden="true" (keydown.enter)="btn1.click()">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Enter the Date</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input #ip1 type="text" class="form-control" id="recipient-name" placeholder="18-10-1969">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modalOK('today')">Today</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button #btn1 type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="modalOK(ip1.value)">Go</button>
+      </div>
+    </div>
+
+  </div>
+</div>
