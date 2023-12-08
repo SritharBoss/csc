@@ -216,13 +216,14 @@
   </div>
 </div>
 <footer>
-  <span style="position: fixed; left: 10px; cursor: pointer;" (click)="editHost()">
-    <i class="bi bi-pencil"></i>
-    {{host}}</span>
-  <span style="cursor: pointer;" (click)="updateGT()">Yesterday GT : {{yestGT}} | </span>
-  <span>Yesterday Diff : {{yestDiff}}
-    <!-- | Report Downloaded Time : {{yestDate | date:'medium'}} -->
-  </span><span hidden style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span>
+  <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+    <span style="margin-left: 5px; cursor: pointer" (click)="editHost()">
+      <i class="bi bi-pencil"></i>{{host}}
+    </span>
+    <span style="margin-right: 5px; cursor: pointer" (click)="updateGT()">Yesterday GT : {{yestGT}} | Profit : {{yestDiff}}</span>
+    <span hidden style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span>
+  
+  </div>
 </footer>
 
 

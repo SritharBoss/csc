@@ -337,10 +337,12 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   updateGT() {
     try {
-      let newGT = prompt('Enter New GT Value')
-      if (newGT != null) {
-        this.yestGT = Number.parseInt(newGT);
-        this.updateHeaders();
+      if(this.date.toDateString()==this.defaultData.date.toDateString()){
+        let newGT = prompt('Enter New GT Value')
+        if (newGT != null) {
+          this.yestGT = Number.parseInt(newGT);
+          this.updateHeaders();
+        }
       }
 
     } catch (e) {
