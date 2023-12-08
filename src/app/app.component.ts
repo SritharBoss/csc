@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, AfterViewInit, OnInit} from '@angular/core';
 import { DataService } from './data.service';
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { DataService } from './data.service';
 })
 export class AppComponent implements AfterViewInit, OnInit {
   
-  constructor(public datepipe: DatePipe,private http: HttpClient,private dataService:DataService) {}
+  constructor(public datepipe: DatePipe,public dataService:DataService) {}
 
   isOnline=true
 
@@ -27,6 +27,8 @@ export class AppComponent implements AfterViewInit, OnInit {
   cashBal: CashBal[] = this.data.cashBal;
   expenses: Expenses[] = this.data.todayExpenses;
   date: Date = new Date();
+  //only for Comparing purposes
+  respData:JsonSchema={"date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0}, { "name": "PVL CUB", "id": "accounts-2", "amount": 0}, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0}, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0}, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0}, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0}, { "name": "RABIPAY", "id": "accounts-7", "amount": 0}, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0}, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0}, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0}, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0}, { "name": "I-NET", "id": "accounts-12", "amount": 0}, { "name": "Google Business", "id": "accounts-13", "amount": 0}], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0}, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0}, { "name": "Tata sky", "id": "serv-3", "amount": 0}, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0}, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0}, { "name": "JIO 1+2", "id": "serv-6", "amount": 0}, { "name": "BSNL", "id": "serv-7", "amount": 0}, { "name": "V/C TV", "id": "serv-8", "amount": 0}, { "name": "Bismi PAN", "id": "serv-9", "amount": 0}, { "name": "Star Commu.", "id": "serv-10", "amount": 0}], "custBalance": [], "cashBal": [{ "id": "cash_1", "denom": 2000, "value": 0 }, { "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT":0, "currentDiff":0 };
 
   jsonFile: any;
 
@@ -52,6 +54,10 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     if(localStorage.getItem("date")!=null){
       this.date = new Date(localStorage.getItem("date") || "");
+    }
+
+    if(localStorage.getItem("host")!=null){
+      this.host = localStorage.getItem("host") || ""
     }
     
     let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.getDateString(this.date),'GET');
@@ -83,6 +89,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   populateData(result: any) {
     try {
       this.data = (JSON.parse(result) as JsonSchema);
+      this.respData = (JSON.parse(result) as JsonSchema)
     } catch (error) {
       alert('File Error')
       console.error(error)
@@ -117,15 +124,38 @@ export class AppComponent implements AfterViewInit, OnInit {
     let name = prompt('Please Enter the Name');
     if (name != null && name != "") {
       if (mode == 'cr') {
-        this.crPeoples.push({ "custName": name, "type": "c", "amount": 0 })
+        if(this.crPeoples.filter(a=>a.custName==name).length==0){
+          this.crPeoples.push({ "custName": name, "type": "c", "amount": 0 })
+        }else{
+          alert("Customer already Exists.");
+          (document.getElementById("id_" + name+"_c") as HTMLInputElement).focus();
+        }
       } else if (mode == 'dr') {
-        this.drPeoples.push({ "custName": name, "type": "d", "amount": 0 })
+        if(this.drPeoples.filter(a=>a.custName==name).length==0){
+          this.drPeoples.push({ "custName": name, "type": "d", "amount": 0 })
+        }else{
+          alert("Customer already Exists.");
+          (document.getElementById("id_" + name+"_d") as HTMLInputElement).focus();
+        }
       } else if (mode == 'ex') {
-        this.expenses.push({ "name": name, "notes": "", "type": "d", "amount": 0 })
+        if(this.expenses.filter(a=>a.name==name).length==0){
+          this.expenses.push({ "name": name, "notes": "", "type": "d", "amount": 0 })
+        }else{
+          alert("Expense already Exists.");
+          (document.getElementById("id_" + name+"_ex") as HTMLInputElement).focus();
+        }
       } else if (mode == 'acc') {
-        this.accounts.push({ "name": name, "id": name+"_", "amount": 0 })
+        if(this.accounts.filter(a=>a.name==name).length==0){
+          this.accounts.push({ "name": name, "id": name+"_", "amount": 0 })
+        }else{
+          alert("Account already Exists.")
+        }
       } else if (mode == 'ser') {
-        this.services.push({ "name": name, "id": name+"_", "amount": 0 })
+        if(this.services.filter(a=>a.name==name).length==0){
+          this.services.push({ "name": name, "id": name+"_", "amount": 0 })
+        }else{
+          alert("Service already Exists.")
+        }
       }
     }
   }
@@ -148,7 +178,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   onChange(event: any, module: string) {
-
+    
     if (module == 'accounts') {
       this.currentAccountSum = 0;
       this.accounts.forEach(element => {
@@ -220,6 +250,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.dataService.setLoader(true)
     this.updateHeaders();
     let lData=this.saveJson();
+    this.respData=lData;
     localStorage.setItem('date', this.date.toISOString());
     const resp = this.makeHTTPRequest(this.host+'/api/saveFile?date=' + this.getDateString(lData.date),'POST', JSON.stringify(lData));
     if (resp.success) {
@@ -273,12 +304,10 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   **/
 
-/***
+
   clearForToday() {
     this.expenses = [];
-    this.data.todayExpenses.forEach((value, index) => {
-      delete this.data.todayExpenses[index]
-    });
+    this.data.todayExpenses=[]
     this.accounts.forEach((e) => e.amount = 0);
     this.services.forEach((e) => e.amount = 0);
     this.cashBal.forEach((e) => e.value = 0)
@@ -287,7 +316,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.updateHeaders();
     }, 500);
   }
- */
+ 
 
   clearCache(event:any){
     var confirmation: boolean = confirm('Confirm Reset For Current Date?');
@@ -319,18 +348,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
   }
 
-  /***
-  downloadFile(filename: any, text: string) {
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:application/JSON;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
-  **/
   ngAfterViewInit(): void {
     //this.date = new Date();
     setTimeout(() => {
@@ -340,6 +357,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   //I just spent 3 whole fucking hours for this method to not to use async
   makeHTTPRequest(apiUrl:string,method:string,body?:string):Response {
+    console.log(this.host+"::"+apiUrl)
     try {
       var xhr = new XMLHttpRequest();
       // The third parameter specifies whether the request should be asynchronous (false for synchronous)
@@ -370,6 +388,11 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   goToPrev(){
+    if(new Date().toDateString()==this.date.toDateString() && this.currentDiff!=this.respData.currentDiff){
+      if(confirm("Do you want to save the data?")){
+        this.saveData()
+      }
+    }
     this.dataService.setLoader(true)
     if(this.prev!=null){
       let resp:Response=this.makeHTTPRequest(this.host+"/api/getFile?date="+this.prev,'GET');
@@ -390,6 +413,11 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   goToNext(){
+    if(new Date().toDateString()==this.date.toDateString()){
+      if(confirm("Do you want to save the data?")){
+        this.saveData()
+      }
+    }
     this.dataService.setLoader(true)
     
     if(this.tomorrow!=null){
@@ -479,6 +507,14 @@ export class AppComponent implements AfterViewInit, OnInit {
     element.click();
 
     document.body.removeChild(element);
+  }
+
+  editHost(){
+    let name = prompt('Please Enter the Host Name');
+    if (name != null && name != "") {
+      this.host=name
+      localStorage.setItem("host",name)
+    }
   }
 
 }

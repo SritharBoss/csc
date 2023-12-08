@@ -2,37 +2,42 @@
 <div style="max-width: 100%;padding: 5px;">
   <div class="cont container-fluid" style="margin-bottom: 30px;">
     <div class="header row" [style.background-color]="isOnline?'#bfe58a':'#e58a8a' ">
-      <span class="col-sm-2" style="align-self: center">
-        <img src="./assets/logo.png" style="height: 60px;padding: 5px;" alt="">
+      <span class="col-sm-2" style="align-self: center;flex-wrap: wrap;">
+        <img src="./assets/logo.png" style="height: 60px;width:170px; padding: 5px;" alt="">
       </span>
-      <span class="col-sm-7" style="font-size: 1.5rem; text-align: center; align-self: center;">
+      <span class="col-sm-6" style="font-size: 1.5rem; text-align: center; align-self: center;flex-wrap: wrap;">
         <i [hidden]="prev==null?true:false" (click)="goToPrev()" style="cursor: pointer" class="bi bi-caret-left"></i>
         {{ date.toLocaleDateString("ta-IN",{ year:"numeric", month:"long", day:"numeric", weekday:"long"}) }}
-        <i [hidden]="tomorrow==null?true:false" (click)="goToNext()" style="cursor: pointer" class="bi bi-caret-right"></i>
+        <i [hidden]="tomorrow==null?true:false" (click)="goToNext()" style="cursor: pointer"
+          class="bi bi-caret-right"></i>
       </span>
-      <span class="col-sm-3"
-        style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center;">
+      <span class="col-sm-4"
+        style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center; flex-wrap: wrap;">
         <span style="float: right;">
           <button (click)="downloadJson()" class="btn btn-secondary"><i class="bi bi-download"></i></button>
         </span>
+
         <span hidden>
           <input type="file" id="upload" (change)="fileChanged($event)" hidden />
           <!-- <input type="file" id="upload" accept="application/JSON" hidden /> -->
           <label class="btn btn-secondary" for="upload"><i class="bi bi-upload"></i></label>
         </span>
-        <!--
-        <span>
-          <button (click)="clearForToday()" class="btn btn-primary"><i class="bi bi-eraser-fill"></i> Clear</button>
-        </span>
-        -->
 
         <span>
-          <button (click)="updateHeaders();openModal()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-calendar-date"></i>
+          <button [disabled]="date.toDateString()!=defaultData.date.toDateString()"
+          (click)="clearForToday()" class="btn btn-primary"><i class="bi bi-eraser-fill"></i> Clear</button>
+        </span>
+
+
+        <span>
+          <button (click)="updateHeaders();openModal()" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#myModal"><i class="bi bi-calendar-date"></i>
             Date</button>
         </span>
 
         <span>
-          <button (click)="saveData();" class="btn btn-primary"><i class="bi bi-save"></i>
+          <button [disabled]="date.toDateString()!=defaultData.date.toDateString()"
+          (click)="saveData();" class="btn btn-primary"><i class="bi bi-save"></i>
             Save</button>
         </span>
 
@@ -44,7 +49,7 @@
     <div class="row">
       <div class="col-md subheader" style="background-color: rgb(249, 235, 233); margin-right: 10px;">
         <div style="color: black; font-size: 18px;">Grant Total</div>
-        <div>
+        <div [style.color]="currentGT>=0?'green':'red'">
           {{currentGT | currency:'INR':'symbol':'.0'}}
         </div>
       </div>
@@ -95,26 +100,32 @@
         <span *ngFor="let a of accounts">
           <span style="display: flex; justify-content: space-between;">
             <label style="min-width: 165px;" for="id_{{a.id}}">{{a.name}}</label>
-            <i [hidden]="a.id=='accounts-1'?true:false" style="cursor: pointer" class="bi bi-trash3"
-              (click)="deleteRow(a.name,'acc');updateHeaders()"></i>
-            <input #ip [disabled]="ip.id=='id_accounts-1'?true:false" (focusout)="onChange($event,'accounts')"
-              class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
+            <div style="display: flex;align-items: center;">
+              <i [hidden]="a.id=='accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+                (click)="deleteRow(a.name,'acc');updateHeaders()"></i>
+              <input #ip [disabled]="ip.id=='id_accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" (focusout)="onChange($event,'accounts')"
+                class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
+            </div>
           </span>
         </span>
-        <button (click)="addUser('acc')" class="btn btn-outline-primary" style="margin-top: 10px;width: 100%;">Add
+        <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('acc')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Account</button>
       </div>
 
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of services">
           <span style="display: flex; justify-content: space-between;">
-            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;" for="id_{{a.id}}">{{a.name}}</label>
-            <i style="cursor: pointer" class="bi bi-trash3" (click)="deleteRow(a.name,'ser');updateHeaders()"></i>
-            <input (focusout)="onChange($event,'services')" class="inputstyle form-control" value="{{a.amount}}"
-              type="number" id="id_{{a.id}}">
+            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;"
+              for="id_{{a.id}}">{{a.name}}</label>
+            <div style="display: flex;align-items: center;">
+              <i style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" [hidden]="date.toDateString()!=defaultData.date.toDateString()"
+                (click)="deleteRow(a.name,'ser');updateHeaders()"></i>
+              <input (focusout)="onChange($event,'services')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{a.amount}}"
+                type="number" id="id_{{a.id}}">
+            </div>
           </span>
         </span>
-        <button (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-top: 10px;width: 100%;">Add
+        <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Services</button>
       </div>
 
@@ -122,7 +133,7 @@
         <div class="cr">
           Credit
           <span>
-            <button (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i
                 class="bi bi-person-plus"></i>
               Add</button>
           </span>
@@ -130,33 +141,38 @@
 
         <div style="margin-bottom:5px ;">
           <div *ngFor="let a of crPeoples;index as i">
-            <span style="display: grid; grid-template-columns: 1fr auto 40px;">
-              <label style="margin-right: 20px;align-self: center;overflow: hidden;"
+            <span style="display: flex; justify-content: space-between;">
+              <label style="min-width: 250px; white-space: nowrap; overflow: hidden;"
                 for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}}</label>
-              <input value="{{a.amount}}" (focusout)="onChange($event,'cust-c')" class="inputstyle form-control"
-                type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
-              <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;"
-                (click)="deleteRow(a.custName,'cr');updateHeaders()">-</button>
+              <div style="display: flex;align-items: center;">
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+                  (click)="deleteRow(a.custName,'cr');updateHeaders()"></i>
+                <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'cust-c')" value="{{a.amount}}" class="inputstyle form-control"
+                  type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+              </div>
             </span>
           </div>
         </div>
 
-        <div class="cr" (click)="addUser('dr')">
+        <div class="cr">
           <span>Debit</span>
           <span>
-            <button class="btn btn-primary" style="margin: 0px; padding: 6px;"><i class="bi bi-person-plus"></i>
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('dr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i class="bi bi-person-plus"></i>
               Add</button>
           </span>
         </div>
         <div style="margin-bottom:5px">
           <div *ngFor="let a of drPeoples;index as i">
-            <span style="display: grid; grid-template-columns: 1fr auto 40px;">
-              <label style="margin-right: 20px;align-self: center;" for="id_{{a.custName}}_{{a.type}}">{{i+1}}.
+            <span style="display: flex; justify-content: space-between;">
+              <label style="min-width: 250px; white-space: nowrap; overflow: hidden;"
+                for="id_{{a.custName}}_{{a.type}}">{{i+1}}.
                 {{a.custName}}</label>
-              <input (focusout)="onChange($event,'cust-d')" value="{{a.amount}}" class="inputstyle form-control"
-                type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
-              <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;"
-                (click)="deleteRow(a.custName,'dr');updateHeaders()">-</button>
+              <div style="display: flex;align-items: center;">
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+                  (click)="deleteRow(a.custName,'dr');updateHeaders()"></i>
+                <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'cust-d')" value="{{a.amount}}" class="inputstyle form-control"
+                  type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+              </div>
             </span>
           </div>
         </div>
@@ -167,7 +183,7 @@
         <div style="margin-bottom: 5px;">
           <div *ngFor="let a of cashBal">
             <span style="display: flex; flex-direction: row-reverse;">
-              <input (focusout)="onChange($event,'denom')" value="{{a.value}}" class="inputstyle form-control"
+              <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'denom')" value="{{a.value}}" class="inputstyle form-control"
                 type="number" id="id_{{a.id}}">
               <label style="margin-right: 20px;align-self: center;" for="id_{{a.id}}">{{a.denom}} X</label>
             </span>
@@ -177,31 +193,37 @@
         <div class="cr">
           <span>Expenses</span>
           <span>
-            <button class="btn btn-primary" (click)="addUser('ex')" style="margin: 0px; padding: 6px;"><i
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="btn btn-primary" (click)="addUser('ex')" style="margin: 0px; padding: 6px;"><i
                 class="bi bi-plus"></i> Add</button>
           </span>
         </div>
 
         <div>
           <div *ngFor="let a of expenses;index as i">
-            <span style="display: grid; grid-template-columns: 1fr auto 40px;">
-              <label style="margin-right: 20px;align-self: center;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
-              <input (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control"
+            <span style="display: flex; justify-content: space-between;">
+              <label style="min-width: 150px; white-space: nowrap; overflow: hidden;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
+              <div style="display: flex;align-items: center;">
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" (click)="deleteRow(a.name,'ex');updateHeaders()"></i>
+              <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control"
                 style="width: 120px;" type="number" id="id_{{a.name}}_ex">
-              <button class="btn btn-danger" style="margin: 2px; margin-bottom: 2px;width: 40px;"
-                (click)="deleteRow(a.name,'ex');updateHeaders()">-</button>
+              </div>
             </span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
 <footer>
-  <span hidden style="position: fixed; left: 10px; cursor: pointer;" (click)="clearCache($event)">DELETE FILE</span>
-  <span (click)="updateGT()">Yesterday GT : {{yestGT}} | Yesterday Diff : {{yestDiff}}
+  <span style="position: fixed; left: 10px; cursor: pointer;" (click)="editHost()">
+    <i class="bi bi-pencil"></i>
+    {{host}}</span>
+  <span style="cursor: pointer;" (click)="updateGT()">Yesterday GT : {{yestGT}} | </span>
+  <span>Yesterday Diff : {{yestDiff}}
     <!-- | Report Downloaded Time : {{yestDate | date:'medium'}} -->
-  </span><span style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span></footer>
+  </span><span hidden style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span>
+</footer>
 
 
 
@@ -219,9 +241,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modalOK('today')">Today</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="modalOK('today')">Today</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button #btn1 type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="modalOK(ip1.value)">Go</button>
+        <button #btn1 type="button" class="btn btn-primary" data-bs-dismiss="modal"
+          (click)="modalOK(ip1.value)">Go</button>
       </div>
     </div>
 

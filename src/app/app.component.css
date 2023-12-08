@@ -30,14 +30,16 @@
 }
 
 .subheader2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     user-select: none;
 }
 
 .subheader3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     padding: 5px;
 }
 
@@ -47,7 +49,6 @@
 
 .subheader:hover {
     background-color: grey;
-    cursor: pointer;
     animation: ff 0.5s;
 }
 
