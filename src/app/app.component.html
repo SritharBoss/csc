@@ -2,7 +2,7 @@
 <div style="max-width: 100%;padding: 5px;">
   <div class="cont container-fluid" style="margin-bottom: 30px;">
     <div class="header row" [style.background-color]="isOnline?'#bfe58a':'#e58a8a' ">
-      <span class="col-sm-2" style="align-self: center;flex-wrap: wrap;">
+      <span class="col-sm-2" style="align-items: center;flex-wrap: wrap;">
         <img src="./assets/logo.png" style="height: 60px;width:170px; padding: 5px;" alt="">
       </span>
       <span class="col-sm-6" style="font-size: 1.5rem; text-align: center; align-self: center;flex-wrap: wrap;">
@@ -13,8 +13,12 @@
       </span>
       <span class="col-sm-4"
         style="display: flex; flex-direction: row-reverse; align-items: center; align-content: center; flex-wrap: wrap;">
+        
         <span style="float: right;">
-          <button (click)="downloadJson()" class="btn btn-secondary"><i class="bi bi-download"></i></button>
+          <button (click)="deleteFile()" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+        </span>
+        <span style="float: right;">
+          <button (click)="downloadJson()" class="btn btn-success"><i class="bi bi-download"></i></button>
         </span>
 
         <span hidden>
@@ -50,47 +54,53 @@
       <div class="col-md subheader" style="background-color: rgb(249, 235, 233); margin-right: 10px;">
         <div style="color: black; font-size: 18px;">Grant Total</div>
         <div [style.color]="currentGT>=0?'green':'red'">
-          {{currentGT | currency:'INR':'symbol':'.0'}}
+          {{currentGT | indianCurrency}}
         </div>
       </div>
 
       <div class="col-md-5 subheader subheader2" style="background-color: #EDC2D8FF; margin-right: 10px;">
         <div>
           <div style="color: black; font-size: 18px;">In Hand</div>
-          <div style="font-size: 25px;"> {{currentDenom|currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; padding: 10px;"> {{currentDenom|indianCurrency}}</div>
         </div>
         <div>
           <div style="color: black; font-size: 18px;">Bank</div>
-          <div style="font-size: 25px;"> {{currentAccountSum-currentDenom |currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; padding: 10px;"> {{currentAccountSum-currentDenom |indianCurrency}}</div>
         </div>
         <div>
           <div style="color: black; font-size: 18px;">EC</div>
-          <div style="font-size: 25px;"> {{currentServicesSum|currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; padding: 10px;"> {{currentServicesSum|indianCurrency}}</div>
         </div>
         <div>
           <div style="color: black; font-size: 18px;">Cust. Bal</div>
-          <div style="font-size: 25px;"> {{currentCrBal|currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; padding: 10px;"> {{currentCrBal|indianCurrency}}</div>
         </div>
       </div>
 
       <div class="col-md subheader subheader3" style="background-color: rgb(224, 240, 254); margin-right: 10px;">
         <div>
           <div style="color: black; font-size: 18px;">கடன்</div>
-          <div style="font-size: 25px; color: red;"> {{currentDebBal|currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; color: red;padding: 10px;"> {{currentDebBal|indianCurrency}}</div>
         </div>
 
         <div>
           <div style="color: black; font-size: 18px;">செலவு</div>
-          <div style="font-size: 25px; color:red"> {{currentExpenses|currency:'INR':'symbol':'.0'}}</div>
+          <div style="font-size: 25px; color:red;padding: 10px;"> {{currentExpenses|indianCurrency}}</div>
         </div>
 
       </div>
 
-      <div class="col-md subheader" [style.color]="currentDiff>=0?'green':'red'"
-        style="background-color: rgb(255, 235, 245)">
-        <div style="color: black; font-size: 18px;">Today Profit</div>
-        <span>{{currentDiff | currency:'INR':'symbol':'.0'}}</span>
+      <div class="col-md subheader subheader3" style="background-color: rgb(224, 240, 254);">
+        <div [style.color]="currentDiff>=0?'green':'red'">
+          <div style="color: black; font-size: 18px">Today Profit</div>
+          <span style="padding: 10px;">{{currentDiff | indianCurrency}}</span>
+        </div>
+        <div [style.color]="currentDiff>=0?'green':'red'">
+          <div style="color: black; font-size: 18px">Xerox</div>
+          <span style="padding: 10px;">{{todayXeroxCounter-yestXeroxCounter}}</span>
+        </div>
       </div>
+
     </div>
 
     <!--SubHeaders End-->
@@ -98,7 +108,7 @@
     <div class="row" style="margin-top: 8px;">
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of accounts">
-          <span style="display: flex; justify-content: space-between;">
+          <span style="display: flex; justify-content: space-between;align-self: center;">
             <label style="min-width: 165px;" for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
               <i [hidden]="a.id=='accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
@@ -115,7 +125,7 @@
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of services">
           <span style="display: flex; justify-content: space-between;">
-            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;"
+            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;align-self: center;"
               for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
               <i style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" [hidden]="date.toDateString()!=defaultData.date.toDateString()"
@@ -127,6 +137,16 @@
         </span>
         <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Services</button>
+
+          <span style="display: flex; justify-content: space-between;">
+            <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;align-self: center;"
+              for="id_1_xerox">Xerox Counter</label>
+            <div style="display: flex;align-items: center;">
+              <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{todayXeroxCounter!=null?todayXeroxCounter:0}}"
+                type="string" id="id_1_xerox">
+            </div>
+          </span>
+          
       </div>
 
       <div class="col-lg-4 main2">
@@ -141,9 +161,9 @@
 
         <div style="margin-bottom:5px ;">
           <div *ngFor="let a of crPeoples;index as i">
-            <span style="display: flex; justify-content: space-between;">
+            <span style="display: flex; justify-content: space-between;" data-toggle="tooltip" data-placement="top" title={{a.notes}}>
               <label style="min-width: 250px; white-space: nowrap; overflow: hidden;"
-                for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}}</label>
+                for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}} <span *ngIf="!(a.added==null || date.toDateString()!=defaultData.date.toDateString() || getDateDiff(a.added)==0)" class="badge rounded-pill">{{getDateDiff(a.added)}}</span></label>
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'cr');updateHeaders()"></i>
@@ -163,10 +183,10 @@
         </div>
         <div style="margin-bottom:5px">
           <div *ngFor="let a of drPeoples;index as i">
-            <span style="display: flex; justify-content: space-between;">
+            <span style="display: flex; justify-content: space-between;" data-toggle="tooltip" data-placement="top" title={{a.notes}}>
               <label style="min-width: 250px; white-space: nowrap; overflow: hidden;"
                 for="id_{{a.custName}}_{{a.type}}">{{i+1}}.
-                {{a.custName}}</label>
+                {{a.custName}} <span *ngIf="!(a.added==null || date.toDateString()!=defaultData.date.toDateString())" class="badge rounded-pill">{{getDateDiff(a.added)}}</span></label>
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'dr');updateHeaders()"></i>
@@ -200,7 +220,7 @@
 
         <div>
           <div *ngFor="let a of expenses;index as i">
-            <span style="display: flex; justify-content: space-between;">
+            <span style="display: flex; justify-content: space-between;" data-toggle="tooltip" data-placement="top" title={{a.notes}}>
               <label style="min-width: 150px; white-space: nowrap; overflow: hidden;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" (click)="deleteRow(a.name,'ex');updateHeaders()"></i>
@@ -217,10 +237,10 @@
 </div>
 <footer>
   <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
-    <span style="margin-left: 5px; cursor: pointer" (click)="editHost()">
+    <span style="margin-left: 5px; cursor: pointer;font-size: small;" (click)="editHost()">
       <i class="bi bi-pencil"></i>{{host}}
     </span>
-    <span style="margin-right: 5px; cursor: pointer" (click)="updateGT()">Yesterday GT : {{yestGT}} | Profit : {{yestDiff}}</span>
+    <span style="margin-right: 5px; cursor: pointer;font-size: small;" (click)="updateGT()">Yest. GT : {{yestGT}} | Profit : {{yestDiff}}</span>
     <span hidden style="position: fixed; right: 10px; cursor: pointer;" (click)="clearCache($event)">RESET</span>
   
   </div>
@@ -238,17 +258,17 @@
       </div>
       <div class="modal-body">
         <form>
-          <input #ip1 type="text" class="form-control" id="recipient-name" placeholder="18-10-1969">
+          <div class="form-group">
+            <label for="recipient-name">Choose a date</label>
+            <input #dateInput type="text" autocomplete="off" class="form-control" id="recipient-name" placeholder="DD-MM-YYYY">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-          (click)="modalOK('today')">Today</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modalOK('today')">Today</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button #btn1 type="button" class="btn btn-primary" data-bs-dismiss="modal"
-          (click)="modalOK(ip1.value)">Go</button>
+        <button #btn1 type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="modalOK(dateInput.value)">Go</button>
       </div>
     </div>
-
   </div>
 </div>

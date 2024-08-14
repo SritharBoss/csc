@@ -23,7 +23,6 @@
     border-radius: 5px;
     color: green;
     font-weight: bolder;
-    box-shadow: 3px 3px 5px gold;
     user-select: none;
     margin-top: 5px;
     padding: 10px 0px;
@@ -122,4 +121,9 @@ footer {
     padding-top: 3px;
     text-align: center;
     background-color: black;
+}
+
+.badge {
+    background-color: #0511222b;
+    color: inherit; /* To maintain the text color */
 }
