@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Glass Antiqua
+- Font Author: Copyright (c) 2011, Denis Masharov <denis.masharov@gmail.com>.
+- Font Source: https://fonts.gstatic.com/s/glassantiqua/v24/xfu30Wr0Wn3NOQM2piC0uXOjnL_wN6fRUkY.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
