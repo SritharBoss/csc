@@ -1,6 +1,6 @@
 {
-  "name": "csc",
-  "version": "0.0.0",
+  "name": "csc-account-ui",
+  "version": "1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
