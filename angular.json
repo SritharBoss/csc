@@ -25,7 +25,13 @@
             "baseHref": "/csc/",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/site.webmanifest",
+              "src/android-chrome-192x192.png",
+              "src/android-chrome-512x512.png",
+              "src/apple-touch-icon.png",
+              "src/favicon-32x32.png",
+              "src/favicon-16x16.png"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

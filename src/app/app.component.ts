@@ -21,17 +21,18 @@ export class AppComponent implements AfterViewInit, OnInit {
   host = "http://localhost:3000"
   //host="https://csckkd.ddns.net:3000"
 
-  defaultData = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0 , "todayXeroxCounter":0, "yestXeroxCounter":0};
-  data: JsonSchema = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0, "todayXeroxCounter":0, "yestXeroxCounter":0 };
+  defaultData = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], 'xerox':[],"yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0 , "todayXeroxCounter":0, "yestXeroxCounter":0};
+  data: JsonSchema = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], 'xerox':[],"yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0, "todayXeroxCounter":0, "yestXeroxCounter":0 };
   accounts: Accounts[] = this.data.accounts;
   services: Services[] = this.data.services;
   crPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'c' });
   drPeoples: CustBalance[] = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
   cashBal: CashBal[] = this.data.cashBal;
   expenses: Expenses[] = this.data.todayExpenses;
+  xerox:Xerox[]=this.data.xerox;
   date: Date = new Date();
   //only for Comparing purposes
-  respData: JsonSchema = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [], "yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0, "todayXeroxCounter":0, "yestXeroxCounter":0 };
+  respData: JsonSchema = { "date": new Date(), "accounts": [{ "name": "CASH IN HAND", "id": "accounts-1", "amount": 0 }, { "name": "PVL CUB", "id": "accounts-2", "amount": 0 }, { "name": "PVL SBI CR", "id": "accounts-3", "amount": 0 }, { "name": "PVL SBI SB", "id": "accounts-4", "amount": 0 }, { "name": "BHANU UBI", "id": "accounts-5", "amount": 0 }, { "name": "DIGIPAY", "id": "accounts-6", "amount": 0 }, { "name": "RABIPAY", "id": "accounts-7", "amount": 0 }, { "name": "BHANU SBI OD", "id": "accounts-8", "amount": 0 }, { "name": "BHANU SBI", "id": "accounts-9", "amount": 0 }, { "name": "CSC DIGITAL SEVA", "id": "accounts-10", "amount": 0 }, { "name": "SMART SHOP", "id": "accounts-11", "amount": 0 }, { "name": "I-NET", "id": "accounts-12", "amount": 0 }, { "name": "Google Business", "id": "accounts-13", "amount": 0 }], "services": [{ "name": "SUNDIRECT", "id": "serv-1", "amount": 0 }, { "name": "A/T DIGITAL TV", "id": "serv-2", "amount": 0 }, { "name": "Tata sky", "id": "serv-3", "amount": 0 }, { "name": "A/T MOBILE", "id": "serv-4", "amount": 0 }, { "name": "VODAFONE 1+2", "id": "serv-5", "amount": 0 }, { "name": "JIO 1+2", "id": "serv-6", "amount": 0 }, { "name": "BSNL", "id": "serv-7", "amount": 0 }, { "name": "V/C TV", "id": "serv-8", "amount": 0 }, { "name": "Bismi PAN", "id": "serv-9", "amount": 0 }, { "name": "Star Commu.", "id": "serv-10", "amount": 0 }], "custBalance": [], "cashBal": [{ "id": "cash_2", "denom": 500, "value": 0 }, { "id": "cash_3", "denom": 200, "value": 0 }, { "id": "cash_4", "denom": 100, "value": 0 }, { "id": "cash_5", "denom": 50, "value": 0 }, { "id": "cash_6", "denom": 20, "value": 0 }, { "id": "cash_7", "denom": 10, "value": 0 }, { "id": "cash_8", "denom": 5, "value": 0 }], "todayExpenses": [],'xerox':[], "yestGT": 0, "yestDiff": 0, "currentGT": 0, "currentDiff": 0, "todayXeroxCounter":0, "yestXeroxCounter":0 };
 
   jsonFile: any;
 
@@ -108,6 +109,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.drPeoples = this.data.custBalance.filter((value: any) => { return value.type == 'd' });
     this.cashBal = this.data.cashBal;
     this.expenses = this.data.todayExpenses;
+    this.xerox=this.data.xerox;
     this.date = new Date(this.data.date)
 
     this.data.cashBal.forEach(element => { this.currentDenom = +(element.value * element.denom) })
@@ -116,6 +118,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.data.custBalance.filter((value: any) => { return value.type == 'c' }).forEach(element => { this.currentCrBal = +element.amount })
     this.data.custBalance.filter((value: any) => { return value.type == 'd' }).forEach(element => { this.currentDebBal = +element.amount })
     this.data.todayExpenses.forEach(element => { this.currentExpenses = +element.amount })
+    if(this.data.xerox==null){
+      this.data.xerox=[]
+    }
+    this.data.xerox.forEach(element=>{this.todayXeroxCounter= +element.count})
 
     this.currentGT = this.data.currentGT
     this.yestGT = this.data.yestGT
@@ -123,9 +129,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.currentDiff = this.data.currentDiff;
     this.yestDiff = this.data.yestDiff
 
-    this.todayXeroxCounter=this.data.todayXeroxCounter
+    //this.todayXeroxCounter=this.data.todayXeroxCounter
     this.yestXeroxCounter=this.data.yestXeroxCounter!=null?this.data.yestXeroxCounter:0
-
 
     setTimeout(() => { this.updateHeaders(); }, 500);
 
@@ -240,6 +245,16 @@ export class AppComponent implements AfterViewInit, OnInit {
         this.currentExpenses = this.currentExpenses + val;
       });
     } else if (module == 'xerox'){
+
+      this.todayXeroxCounter = 0;
+      this.xerox.forEach(element => {
+        let val = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        element.count = val;
+        this.todayXeroxCounter = this.todayXeroxCounter + val;
+      });
+
+
+      /*** OLD
       let element=(document.getElementById("id_1_xerox") as HTMLInputElement);
       let result:number=+(element.value);
       try {
@@ -250,6 +265,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       }
       element.value=result.toString()
       this.todayXeroxCounter=result
+       */
     }
     this.updateSubHeadersData();
     //this.saveJson();
@@ -308,6 +324,7 @@ export class AppComponent implements AfterViewInit, OnInit {
       yestDiff: this.yestDiff,
       currentGT: this.currentGT,
       currentDiff: this.currentDiff,
+      xerox:this.xerox,
       todayXeroxCounter:this.todayXeroxCounter,
       yestXeroxCounter:this.yestXeroxCounter
     }
@@ -608,6 +625,7 @@ interface JsonSchema {
   custBalance: CustBalance[],
   cashBal: CashBal[],
   todayExpenses: Expenses[],
+  xerox:Xerox[],
   yestGT: number,
   yestDiff: number,
   currentGT: number,
@@ -625,5 +643,7 @@ interface CustBalance { custName: string, notes: string, type: string, added: Da
 interface Expenses { name: string, notes: string , type: string, added: Date, amount: number }
 
 interface CashBal { id: string, denom: number, value: number }
+
+interface Xerox { name: string, id: string, count: number }
 
 interface Response { data: JsonSchema, success: boolean, message: string, yestFile: string, tomorrorwFile: string }

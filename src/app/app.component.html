@@ -137,25 +137,26 @@
         </span>
         <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Services</button>
-
+          <div class="cr" style="justify-content: center;">Xerox Counters</div>
+        <span *ngFor="let a of xerox">
           <span style="display: flex; justify-content: space-between;">
             <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;align-self: center;"
-              for="id_1_xerox">Xerox Counter</label>
+            for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
-              <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{todayXeroxCounter!=null?todayXeroxCounter:0}}"
-                type="string" id="id_1_xerox">
+              <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{a.count}}"
+              type="number" id="id_{{a.id}}">
             </div>
           </span>
+        </span>
           
       </div>
 
       <div class="col-lg-4 main2">
-        <div class="cr">
+        <div class="cr" style="background-color: rgb(191, 229, 138);">
           Credit
           <span>
             <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i
-                class="bi bi-person-plus"></i>
-              Add</button>
+                class="bi bi-person-plus"></i>Add</button>
           </span>
         </div>
 
@@ -174,7 +175,7 @@
           </div>
         </div>
 
-        <div class="cr">
+        <div class="cr" style="background-color: rgba(255, 0, 0, 0.214);">
           <span>Debit</span>
           <span>
             <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('dr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i class="bi bi-person-plus"></i>
