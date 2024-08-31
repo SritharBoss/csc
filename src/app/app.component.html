@@ -28,11 +28,14 @@
         </span>
 
         <span>
-          <button [disabled]="date.toDateString()!=defaultData.date.toDateString()"
-          (click)="clearForToday()" class="btn btn-primary"><i class="bi bi-eraser-fill"></i> Clear</button>
+          <button (click)="editPage()" class="btn btn-warning" style="border: 2px;"><i class="bi bi-pen"></i></button>
         </span>
 
-
+        <span>
+          <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable"
+          (click)="clearForToday()" class="btn btn-primary"><i class="bi bi-eraser-fill"></i> Clear</button>
+        </span>
+        
         <span>
           <button (click)="updateHeaders();openModal()" class="btn btn-primary" data-bs-toggle="modal"
             data-bs-target="#myModal"><i class="bi bi-calendar-date"></i>
@@ -40,7 +43,7 @@
         </span>
 
         <span>
-          <button [disabled]="date.toDateString()!=defaultData.date.toDateString()"
+          <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable"
           (click)="saveData();" class="btn btn-primary"><i class="bi bi-save"></i>
             Save</button>
         </span>
@@ -113,12 +116,12 @@
             <div style="display: flex;align-items: center;">
               <i [hidden]="a.id=='accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                 (click)="deleteRow(a.name,'acc');updateHeaders()"></i>
-              <input #ip [disabled]="ip.id=='id_accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" (focusout)="onChange($event,'accounts')"
+              <input #ip [disabled]="ip.id=='id_accounts-1' || ((date.toDateString()!=defaultData.date.toDateString()) && !isEditable)" (focusout)="onChange($event,'accounts')"
                 class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
             </div>
           </span>
         </span>
-        <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('acc')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
+        <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (click)="addUser('acc')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Account</button>
       </div>
 
@@ -130,12 +133,12 @@
             <div style="display: flex;align-items: center;">
               <i style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" [hidden]="date.toDateString()!=defaultData.date.toDateString()"
                 (click)="deleteRow(a.name,'ser');updateHeaders()"></i>
-              <input (focusout)="onChange($event,'services')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{a.amount}}"
+              <input (focusout)="onChange($event,'services')" [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" class="inputstyle form-control" value="{{a.amount}}"
                 type="number" id="id_{{a.id}}">
             </div>
           </span>
         </span>
-        <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
+        <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Services</button>
           <div class="cr" style="justify-content: center;">Xerox Counters</div>
         <span *ngFor="let a of xerox">
@@ -143,7 +146,7 @@
             <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;align-self: center;"
             for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
-              <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="inputstyle form-control" value="{{a.count}}"
+              <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" class="inputstyle form-control" value="{{a.count}}"
               type="number" id="id_{{a.id}}">
             </div>
           </span>
@@ -155,7 +158,7 @@
         <div class="cr" style="background-color: rgb(191, 229, 138);">
           Credit
           <span>
-            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (click)="addUser('cr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i
                 class="bi bi-person-plus"></i>Add</button>
           </span>
         </div>
@@ -168,7 +171,7 @@
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'cr');updateHeaders()"></i>
-                <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'cust-c')" value="{{a.amount}}" class="inputstyle form-control"
+                <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'cust-c')" value="{{a.amount}}" class="inputstyle form-control"
                   type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
               </div>
             </span>
@@ -178,7 +181,7 @@
         <div class="cr" style="background-color: rgba(255, 0, 0, 0.214);">
           <span>Debit</span>
           <span>
-            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" (click)="addUser('dr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i class="bi bi-person-plus"></i>
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (click)="addUser('dr')" class="btn btn-primary" style="margin: 0px; padding: 6px;"><i class="bi bi-person-plus"></i>
               Add</button>
           </span>
         </div>
@@ -191,7 +194,7 @@
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'dr');updateHeaders()"></i>
-                <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'cust-d')" value="{{a.amount}}" class="inputstyle form-control"
+                <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'cust-d')" value="{{a.amount}}" class="inputstyle form-control"
                   type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
               </div>
             </span>
@@ -204,7 +207,7 @@
         <div style="margin-bottom: 5px;">
           <div *ngFor="let a of cashBal">
             <span style="display: flex; flex-direction: row-reverse;">
-              <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'denom')" value="{{a.value}}" class="inputstyle form-control"
+              <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'denom')" value="{{a.value}}" class="inputstyle form-control"
                 type="number" id="id_{{a.id}}">
               <label style="margin-right: 20px;align-self: center;" for="id_{{a.id}}">{{a.denom}} X</label>
             </span>
@@ -214,7 +217,7 @@
         <div class="cr">
           <span>Expenses</span>
           <span>
-            <button [disabled]="date.toDateString()!=defaultData.date.toDateString()" class="btn btn-primary" (click)="addUser('ex')" style="margin: 0px; padding: 6px;"><i
+            <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" class="btn btn-primary" (click)="addUser('ex')" style="margin: 0px; padding: 6px;"><i
                 class="bi bi-plus"></i> Add</button>
           </span>
         </div>
@@ -225,7 +228,7 @@
               <label style="min-width: 150px; white-space: nowrap; overflow: hidden;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
               <div style="display: flex;align-items: center;">
                 <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" (click)="deleteRow(a.name,'ex');updateHeaders()"></i>
-              <input [disabled]="date.toDateString()!=defaultData.date.toDateString()" (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control"
+              <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control"
                 style="width: 120px;" type="number" id="id_{{a.name}}_ex">
               </div>
             </span>

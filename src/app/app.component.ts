@@ -17,6 +17,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   constructor(public datepipe: DatePipe, public dataService: DataService) { }
 
   isOnline = true
+  isEditable=false
 
   host = "http://localhost:3000"
   //host="https://csckkd.ddns.net:3000"
@@ -58,6 +59,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
 
     this.dataService.setLoader(true)
+    this.isEditable=false
 
     if (localStorage.getItem("date") != null) {
       this.date = new Date(localStorage.getItem("date") || "");
@@ -591,6 +593,13 @@ export class AppComponent implements AfterViewInit, OnInit {
     if (name != null && name != "") {
       this.host = name
       localStorage.setItem("host", name)
+    }
+  }
+
+  editPage(){
+    var confirmation = prompt("Enter \"EDIT\" to Edit this page");
+    if(confirmation==="EDIT"){
+      this.isEditable=!this.isEditable
     }
   }
 
