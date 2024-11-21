@@ -203,28 +203,32 @@ export class AppComponent implements AfterViewInit, OnInit {
     if (module == 'accounts') {
       this.currentAccountSum = 0;
       this.accounts.forEach(element => {
-        let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        //let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + element.id)
         element.amount = val;
         this.currentAccountSum = this.currentAccountSum + val;
       });
     } else if (module == 'services') {
       this.currentServicesSum = 0;
       this.services.forEach(element => {
-        let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        //let val: number = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + element.id)
         element.amount = val;
         this.currentServicesSum = this.currentServicesSum + val;
       });
     } else if (module == 'cust-c') {
       this.currentCrBal = 0;
       this.crPeoples.forEach(element => {
-        let val = +(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
+        //let val = +(document.getElementById("id_" + element.custName + "_" + element.type) as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + element.custName + "_" + element.type)
         element.amount = val;
         this.currentCrBal = this.currentCrBal + val;
       });
     } else if (module == 'cust-d') {
       this.currentDebBal = 0;
       (this.drPeoples as CustBalance[]).forEach(e => {
-        let val = +(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
+        //let val = +(document.getElementById("id_" + e.custName + "_" + e.type) as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + e.custName + "_" + e.type)
         e.amount = val
         this.currentDebBal = this.currentDebBal + val;
       });
@@ -242,7 +246,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     } else if (module == 'expense') {
       this.currentExpenses = 0;
       this.expenses.forEach(element => {
-        let val = +(document.getElementById("id_" + element.name + "_ex") as HTMLInputElement).value;
+        //let val = +(document.getElementById("id_" + element.name + "_ex") as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + element.name + "_ex")
         element.amount = val;
         this.currentExpenses = this.currentExpenses + val;
       });
@@ -250,7 +255,8 @@ export class AppComponent implements AfterViewInit, OnInit {
 
       this.todayXeroxCounter = 0;
       this.xerox.forEach(element => {
-        let val = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        //let val = +(document.getElementById("id_" + element.id) as HTMLInputElement).value;
+        let val:number=this.getComputedValueFromTextbox("id_" + element.id)
         element.count = val;
         this.todayXeroxCounter = this.todayXeroxCounter + val;
       });
@@ -271,6 +277,23 @@ export class AppComponent implements AfterViewInit, OnInit {
     }
     this.updateSubHeadersData();
     //this.saveJson();
+  }
+
+  getComputedValueFromTextbox(id: string):number {
+    let element = (document.getElementById(id) as HTMLInputElement);
+    let result: number = 0
+    try {
+      result = eval(element.value); // Evaluate the expression
+    } catch (e) {
+      result = +(element.value)
+      alert("Invalid expression! Please enter a valid arithmetic expression.");
+    }
+    if(isNaN(result)){
+      console.log("IsNAN" + JSON.stringify(element))
+      result=0
+    }
+    element.value = result.toString();
+    return result
   }
 
   updateSubHeadersData() {

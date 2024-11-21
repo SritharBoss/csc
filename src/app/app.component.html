@@ -108,16 +108,17 @@
 
     <!--SubHeaders End-->
 
+    <!--ACCOUNTS-->
     <div class="row" style="margin-top: 8px;">
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of accounts">
           <span style="display: flex; justify-content: space-between;align-self: center;">
             <label style="min-width: 165px;" for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
-              <i [hidden]="a.id=='accounts-1' || (date.toDateString()!=defaultData.date.toDateString())" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+              <i [hidden]="a.id=='accounts-1' || (date.toDateString()!=defaultData.date.toDateString() && !isEditable)" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                 (click)="deleteRow(a.name,'acc');updateHeaders()"></i>
               <input #ip [disabled]="ip.id=='id_accounts-1' || ((date.toDateString()!=defaultData.date.toDateString()) && !isEditable)" (focusout)="onChange($event,'accounts')"
-                class="inputstyle form-control" type="number" id="id_{{a.id}}" value="{{a.amount}}">
+                class="inputstyle form-control" id="id_{{a.id}}" value="{{a.amount}}">
             </div>
           </span>
         </span>
@@ -125,21 +126,23 @@
           Account</button>
       </div>
 
+      <!--SERVICES-->
       <div class="col-lg" style="min-width: 315px;">
         <span *ngFor="let a of services">
           <span style="display: flex; justify-content: space-between;">
             <label style="min-width: 165px; white-space: nowrap;  overflow: hidden;align-self: center;"
               for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
-              <i style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" [hidden]="date.toDateString()!=defaultData.date.toDateString()"
+              <i style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" [hidden]="date.toDateString()!=defaultData.date.toDateString() && !isEditable"
                 (click)="deleteRow(a.name,'ser');updateHeaders()"></i>
               <input (focusout)="onChange($event,'services')" [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" class="inputstyle form-control" value="{{a.amount}}"
-                type="number" id="id_{{a.id}}">
+                id="id_{{a.id}}">
             </div>
           </span>
         </span>
         <button [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (click)="addUser('ser')" class="btn btn-outline-primary" style="margin-bottom: 10px;margin-top: 10px;width: 100%;">Add
           Services</button>
+        <!--XEROX-->
           <div class="cr" style="justify-content: center;">Xerox Counters</div>
         <span *ngFor="let a of xerox">
           <span style="display: flex; justify-content: space-between;">
@@ -147,7 +150,7 @@
             for="id_{{a.id}}">{{a.name}}</label>
             <div style="display: flex;align-items: center;">
               <input (focusout)="onChange($event,'xerox')" [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" class="inputstyle form-control" value="{{a.count}}"
-              type="number" id="id_{{a.id}}">
+             id="id_{{a.id}}">
             </div>
           </span>
         </span>
@@ -163,21 +166,23 @@
           </span>
         </div>
 
+        <!--CUSTOMER CREDIT-->
         <div style="margin-bottom:5px ;">
           <div *ngFor="let a of crPeoples;index as i">
             <span style="display: flex; justify-content: space-between;" data-toggle="tooltip" data-placement="top" title={{a.notes}}>
               <label style="min-width: 250px; white-space: nowrap; overflow: hidden;"
                 for="id_{{a.custName}}_{{a.type}}">{{i+1}}. {{a.custName}} <span *ngIf="!(a.added==null || date.toDateString()!=defaultData.date.toDateString() || getDateDiff(a.added)==0)" class="badge rounded-pill">{{getDateDiff(a.added)}}</span></label>
               <div style="display: flex;align-items: center;">
-                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'cr');updateHeaders()"></i>
                 <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'cust-c')" value="{{a.amount}}" class="inputstyle form-control"
-                  type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+                  id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
               </div>
             </span>
           </div>
         </div>
 
+        <!--CUSTOMER DEBIT-->
         <div class="cr" style="background-color: rgba(255, 0, 0, 0.214);">
           <span>Debit</span>
           <span>
@@ -192,18 +197,18 @@
                 for="id_{{a.custName}}_{{a.type}}">{{i+1}}.
                 {{a.custName}} <span *ngIf="!(a.added==null || date.toDateString()!=defaultData.date.toDateString())" class="badge rounded-pill">{{getDateDiff(a.added)}}</span></label>
               <div style="display: flex;align-items: center;">
-                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3"
                   (click)="deleteRow(a.custName,'dr');updateHeaders()"></i>
                 <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'cust-d')" value="{{a.amount}}" class="inputstyle form-control"
-                  type="number" id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
+                  id="id_{{a.custName}}_{{a.type}}" value="{{a.amount}}">
               </div>
             </span>
           </div>
         </div>
       </div>
 
+      <!--DENOM-->
       <div class="col-lg maincontent4">
-
         <div style="margin-bottom: 5px;">
           <div *ngFor="let a of cashBal">
             <span style="display: flex; flex-direction: row-reverse;">
@@ -214,6 +219,7 @@
           </div>
         </div>
 
+        <!--EXPENSES-->
         <div class="cr">
           <span>Expenses</span>
           <span>
@@ -227,9 +233,9 @@
             <span style="display: flex; justify-content: space-between;" data-toggle="tooltip" data-placement="top" title={{a.notes}}>
               <label style="min-width: 150px; white-space: nowrap; overflow: hidden;" for="id_{{a.name}}_ex">{{i+1}}. {{a.name}}</label>
               <div style="display: flex;align-items: center;">
-                <i [hidden]="date.toDateString()!=defaultData.date.toDateString()" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" (click)="deleteRow(a.name,'ex');updateHeaders()"></i>
+                <i [hidden]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" style="cursor: pointer;margin-right: 5px" class="bi bi-trash3" (click)="deleteRow(a.name,'ex');updateHeaders()"></i>
               <input [disabled]="date.toDateString()!=defaultData.date.toDateString() && !isEditable" (focusout)="onChange($event,'expense')" value="{{a.amount}}" class="inputstyle form-control"
-                style="width: 120px;" type="number" id="id_{{a.name}}_ex">
+                style="width: 120px;" id="id_{{a.name}}_ex">
               </div>
             </span>
           </div>
