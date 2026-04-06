@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { LoaderComponent } from './loader/loader.component';
+import { AlertComponent } from './alert/alert.component';
 
 @Pipe({
   name: 'indianCurrency'
@@ -42,6 +43,7 @@ export class IndianCurrencyPipe implements PipeTransform {
   declarations: [
     AppComponent,
     LoaderComponent,
+    AlertComponent,
     IndianCurrencyPipe
   ],
   imports: [

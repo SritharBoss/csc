@@ -9,3 +9,19 @@ html,body {
     background-color: lightgoldenrodyellow;
     overflow-wrap: break-word
 }
+
+.br-alert-slide {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.br-alert-slide.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.br-alert-slide.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
